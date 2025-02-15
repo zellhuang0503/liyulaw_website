@@ -1,14 +1,21 @@
-﻿export default function App() {
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import RootLayout from './layouts/RootLayout'
+import Home from './pages/Home'
+
+const App = () => {
   return (
-    <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow">
-        <h1 className="text-3xl font-bold text-blue-600 p-4">
-          立宇法律諮詢平台
-        </h1>
-      </header>
-      <main className="p-4">
-        {/* 未來在此加入功能元件 */}
-      </main>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<RootLayout />}>
+          <Route index element={<Home />} />
+          <Route path="team" element={<div>律師介紹</div>} />
+          <Route path="services" element={<div>專業領域</div>} />
+          <Route path="knowledge" element={<div>法務常識</div>} />
+          <Route path="contact" element={<div>聯絡我們</div>} />
+        </Route>
+      </Routes>
+    </Router>
   )
 }
+
+export default App
