@@ -13,12 +13,12 @@ const Home = () => {
 
   // 專業領域資料
   const services = [
-    { title: '刑事辯護', icon: '⚖️', description: '專業刑事辯護，保障您的合法權益' },
-    { title: '民事訴訟', icon: '📋', description: '處理各類民事糾紛，解決權益受損問題' },
-    { title: '家事案件', icon: '👨‍👩‍👧‍👦', description: '婚姻、繼承等家事法律諮詢' },
-    { title: '企業法律', icon: '🏢', description: '企業法務諮詢，協助企業合法經營' },
-    { title: '行政訴訟', icon: '📜', description: '行政爭議處理，保障您的權益' },
-    { title: '非訟案件', icon: '🤝', description: '調解、和解等非訟事件處理' }
+    { title: '刑事辯護', icon: '/images/刑事辯護.png', description: '專業刑事辯護，保障您的合法權益' },
+    { title: '民事訴訟', icon: '/images/民事訴訟.png', description: '處理各類民事糾紛，解決權益受損問題' },
+    { title: '家事案件', icon: '/images/家事案件.png', description: '婚姻、繼承等家事法律諮詢' },
+    { title: '企業法律', icon: '/images/企業法律.png', description: '企業法務諮詢，協助企業合法經營' },
+    { title: '行政訴訟', icon: '/images/行政訴訟.png', description: '行政爭議處理，保障您的權益' },
+    { title: '非訟案件', icon: '/images/非訟案件.png', description: '調解、和解等非訟事件處理' }
   ]
 
   // 最新法務常識文章
@@ -89,7 +89,7 @@ const Home = () => {
       <div className="relative bg-white">
         {/* 專業領域 */}
         <section className="container mx-auto px-4 py-16">
-          <h2 className="text-3xl font-bold text-center mb-12">專業領域</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">服務項目</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
               <motion.div
@@ -99,18 +99,22 @@ const Home = () => {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
               >
-                <div className="text-primary text-4xl mb-4">
-                  <span className="material-icons">{service.icon}</span>
+                <div className="flex items-center">
+                  <div className="mr-4">
+                    <img src={service.icon} alt={service.title} className="h-32 w-32" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
+                    <p className="text-gray-600">{service.description}</p>
+                  </div>
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-                <p className="text-gray-600">{service.description}</p>
               </motion.div>
             ))}
           </div>
         </section>
 
         {/* 最新法務常識 */}
-        <section className="bg-gray-50 py-16">
+        <section className="py-16" style={{ backgroundColor: '#FDF2E9' }}>
           <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-12">最新法務常識</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

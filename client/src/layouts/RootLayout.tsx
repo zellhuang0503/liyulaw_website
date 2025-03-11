@@ -17,7 +17,7 @@ const RootLayout = () => {
   const menuItems = [
     { name: '首頁', path: '/' },
     { name: '律師介紹', path: '/team' },
-    { name: '專業領域', path: '/services' },
+    { name: '服務項目', path: '/services' },
     { name: '法務常識', path: '/knowledge' },
     { name: '聯絡我們', path: '/contact' },
   ]
