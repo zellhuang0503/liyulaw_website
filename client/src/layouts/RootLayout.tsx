@@ -34,10 +34,18 @@ const RootLayout = () => {
             <div className="flex-shrink-0">
               <a 
                 href="/" 
-                className={`text-2xl font-serif font-bold transition-colors duration-300 ${
+                className={`flex items-center text-2xl font-serif font-bold transition-colors duration-300 ${
                   isScrolled ? 'text-accent' : 'text-[#D0C86D]'
                 }`}
               >
+                <img 
+                  src="/images/libra-law-LOGO.png" 
+                  alt="理宇法律事務所Logo" 
+                  className="h-10 mr-2 transition-all duration-300"
+                  style={{ 
+                    filter: isScrolled ? 'brightness(0)' : `brightness(0) saturate(100%) invert(84%) sepia(12%) saturate(1453%) hue-rotate(21deg) brightness(92%) contrast(84%)`,
+                  }}
+                />
                 理宇法律事務所
               </a>
             </div>

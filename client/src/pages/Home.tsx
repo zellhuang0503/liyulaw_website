@@ -27,19 +27,22 @@ const Home = () => {
       title: '認識刑事訴訟程序',
       category: '刑事法律百科',
       date: '2025-02-15',
-      summary: '了解刑事訴訟的基本流程和您的權利...'
+      summary: '了解刑事訴訟的基本流程和您的權利...',
+      image: '/images/了解刑事訴訟的基本流程和您的權利.jpg'
     },
     {
       title: '租賃糾紛案例分析',
       category: '民事權益指南',
       date: '2025-02-14',
-      summary: '常見租賃糾紛的處理方式和注意事項...'
+      summary: '常見租賃糾紛的處理方式和注意事項...',
+      image: '/images/常見租賃糾紛的處理方式和注意事項.jpg'
     },
     {
       title: '遺產繼承須知',
       category: '家庭法律須知',
       date: '2025-02-13',
-      summary: '遺產繼承的法律規定和注意事項...'
+      summary: '遺產繼承的法律規定和注意事項...',
+      image: '/images/遺產繼承的法律規定和注意事項.jpg'
     }
   ]
 
@@ -126,6 +129,7 @@ const Home = () => {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
                 >
+                  <img src={article.image} alt={article.title} className="w-full h-48 object-cover mb-4" />
                   <div className="text-sm text-primary mb-2">{article.category}</div>
                   <h3 className="text-xl font-bold mb-2">{article.title}</h3>
                   <p className="text-gray-600 mb-4">{article.summary}</p>
