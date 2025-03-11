@@ -1,7 +1,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 
-const Home = () => {
+export default function Home() {
   const ref = useRef(null)
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -9,7 +9,6 @@ const Home = () => {
   })
 
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0.5, 0])
 
   // 專業領域資料
   const services = [
@@ -47,49 +46,53 @@ const Home = () => {
   ]
 
   return (
-    <div className="relative">
-      {/* 懸浮式 CTA 按鈕 */}
-      <a
-        href="/contact"
-        className="fixed bottom-8 right-8 z-50 bg-primary text-white px-6 py-3 rounded-full shadow-lg hover:bg-[#d35400] transition-colors duration-200 flex items-center space-x-2"
-      >
-        <span className="material-icons">chat</span>
-        <span>立即諮詢</span>
-      </a>
+    <div className="min-h-screen flex flex-col">
+      {/* 首頁橫幅 */}
+      <div className="relative h-screen">
+        <div className="absolute inset-0 bg-black z-0">
+          <motion.div
+            style={{
+              height: '100%',
+              width: '100%',
+              y: y,
+            }}
+          >
+            <div className="absolute inset-0 bg-[url('/images/Lady_Justice.png')] bg-cover bg-center" />
+            <div className="absolute inset-0 bg-black/30" />
+          </motion.div>
+        </div>
 
-      {/* 視差滾動英雄區塊 */}
-      <div ref={ref} className="relative h-screen overflow-hidden">
-        <motion.div
-          style={{ y, opacity }}
-          className="absolute inset-0"
-        >
-          <div className="absolute inset-0 bg-[url('/images/Lady_Justice.png')] bg-cover bg-center" />
-          <div className="absolute inset-0 bg-black/30" />
-        </motion.div>
-        <div className="relative h-full flex items-center justify-center text-white container mx-auto px-4">
-          <div className="text-center">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-5xl md:text-6xl font-black text-shadow-lg mb-4"
-            >
-              理宇法律事務所
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-xl md:text-2xl text-shadow mb-8"
-            >
-              專業法律諮詢，為您解決所有法律問題
-            </motion.p>
-          </div>
+        <div className="relative z-10 flex flex-col justify-center items-center h-full text-white p-4 text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-5xl sm:text-6xl font-black text-shadow-lg mb-4"
+          >
+            理宇法律事務所
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-xl sm:text-2xl text-shadow mb-8"
+          >
+            專業法律諮詢，為您解決所有法律問題
+          </motion.p>
+          <motion.a
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            href="/contact"
+            className="bg-[#D0C86D] hover:bg-[#E67E22] text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-colors duration-300"
+          >
+            立即諮詢
+          </motion.a>
         </div>
       </div>
 
       {/* 專業領域和其他內容 */}
-      <div className="relative bg-white">
+      <div>
         {/* 專業領域 */}
         <section className="container mx-auto px-4 py-16">
           <h2 className="text-3xl font-bold text-center mb-12">服務項目</h2>
@@ -144,15 +147,7 @@ const Home = () => {
             </div>
           </div>
         </section>
-
-        {/* 事務所簡介 */}
-        <section className="container mx-auto px-4 py-16">
-          <h2 className="text-3xl font-bold text-center mb-12">關於我們</h2>
-          {/* 這裡添加事務所簡介的內容 */}
-        </section>
       </div>
     </div>
   )
 }
-
-export default Home

@@ -34,7 +34,7 @@ const RootLayout = () => {
             <div className="flex-shrink-0">
               <a 
                 href="/" 
-                className={`flex items-center text-2xl font-serif font-bold transition-colors duration-300 ${
+                className={`flex items-center text-2xl font-sans font-bold transition-colors duration-300 ${
                   isScrolled ? 'text-accent' : 'text-[#D0C86D]'
                 }`}
               >
@@ -116,17 +116,22 @@ const RootLayout = () => {
       </main>
 
       {/* Footer */}
-      <footer className="bg-accent text-white">
-        <div className="container mx-auto px-4 py-8">
+      <footer className="bg-[#34495E] text-white py-12 font-sans">
+        <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Contact Info */}
             <div>
-              <h3 className="text-lg font-bold mb-4">聯絡資訊</h3>
-              <address className="not-italic">
-                <p>地址：10002台北市中正區博愛路49號7樓</p>
-                <p>電話：(02)2312-2308</p>
-                <p>傳真：(02)2312-2307</p>
-              </address>
+              <h3 className="text-2xl font-bold mb-6">理宇法律事務所</h3>
+              <h4 className="text-lg mb-4 text-[#D0C86D]">LIYU Attorneys at Law</h4>
+              <p className="mb-2">
+                <strong>地址：</strong>10002台北市中正區博愛路49號7樓
+              </p>
+              <p className="mb-2">
+                <strong>電話：</strong>(02)2312-2308
+              </p>
+              <p className="mb-2">
+                <strong>傳真：</strong>(02)2312-2307
+              </p>
             </div>
 
             {/* Quick Links */}
@@ -137,7 +142,7 @@ const RootLayout = () => {
                   <li key={item.path}>
                     <a
                       href={item.path}
-                      className="hover:text-secondary transition-colors duration-200"
+                      className="hover:text-[#D0C86D] transition-colors duration-200"
                     >
                       {item.name}
                     </a>
@@ -152,11 +157,17 @@ const RootLayout = () => {
               <p>週一至週五：09:00 - 18:00</p>
               <p>週六、週日：休息</p>
               <p className="mt-4">※ 如需約談請先預約</p>
+              <a 
+                href="#"
+                className="inline-block mt-4 bg-[#D0C86D] hover:bg-[#E67E22] text-white py-2 px-6 rounded-lg font-bold transition-colors duration-300"
+              >
+                預約諮詢
+              </a>
             </div>
           </div>
 
           <div className="mt-8 pt-8 border-t border-gray-700 text-center">
-            <p>&copy; {new Date().getFullYear()} 理宇法律事務所. All rights reserved.</p>
+            <p> {new Date().getFullYear()} 理宇法律事務所 版權所有</p>
           </div>
         </div>
       </footer>
