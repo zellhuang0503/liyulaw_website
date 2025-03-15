@@ -4,6 +4,7 @@ import Home from './pages/Home'
 import Services from './pages/Services'
 import LegalKnowledge from './pages/LegalKnowledge'
 import Contact from './pages/Contact'
+import Team from './pages/Team'
 
 const App = () => {
   return (
@@ -11,7 +12,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<RootLayout />}>
           <Route index element={<Home />} />
-          <Route path="team" element={<div>律師介紹</div>} />
+          <Route path="team" element={<Team />} />
           <Route path="services" element={<Services />} />
           <Route path="knowledge" element={<LegalKnowledge />} />
           <Route path="contact" element={<Contact />} />
