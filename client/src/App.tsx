@@ -3,6 +3,7 @@ import RootLayout from './layouts/RootLayout'
 import Home from './pages/Home'
 import Services from './pages/Services'
 import LegalKnowledge from './pages/LegalKnowledge'
+import Contact from './pages/Contact'
 
 const App = () => {
   return (
@@ -13,7 +14,7 @@ const App = () => {
           <Route path="team" element={<div>律師介紹</div>} />
           <Route path="services" element={<Services />} />
           <Route path="knowledge" element={<LegalKnowledge />} />
-          <Route path="contact" element={<div>聯絡我們</div>} />
+          <Route path="contact" element={<Contact />} />
         </Route>
       </Routes>
     </Router>

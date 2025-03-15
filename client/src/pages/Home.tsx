@@ -2,9 +2,9 @@ import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 
 export default function Home() {
-  const ref = useRef(null)
+  const bannerRef = useRef(null)
   const { scrollYProgress } = useScroll({
-    target: ref,
+    target: bannerRef,
     offset: ["start start", "end start"]
   })
 
@@ -46,21 +46,14 @@ export default function Home() {
   ]
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* 首頁橫幅 */}
-      <div className="relative h-screen">
-        <div className="absolute inset-0 bg-black z-0">
-          <motion.div
-            style={{
-              height: '100%',
-              width: '100%',
-              y: y,
-            }}
-          >
-            <div className="absolute inset-0 bg-[url('/images/Lady_Justice.png')] bg-cover bg-center" />
-            <div className="absolute inset-0 bg-black/30" />
-          </motion.div>
-        </div>
+    <div className="min-h-screen">
+      {/* 首頁橫幅 - 使用固定高度，不使用視窗高度 */}
+      <div className="h-[800px] relative overflow-hidden" ref={bannerRef}>
+        <motion.div
+          className="absolute inset-0 bg-[url('/images/Lady_Justice.png')] bg-cover bg-center"
+          style={{ y }}
+        />
+        <div className="absolute inset-0 bg-black/30" />
 
         <div className="relative z-10 flex flex-col justify-center items-center h-full text-white p-4 text-center">
           <motion.h1
@@ -91,63 +84,60 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 專業領域和其他內容 */}
-      <div>
-        {/* 專業領域 */}
-        <section className="container mx-auto px-4 py-16">
-          <h2 className="text-3xl font-bold text-center mb-12">服務項目</h2>
+      {/* 專業領域 - 確保在橫幅下方，不會重疊 */}
+      <section className="container mx-auto px-4 py-16 bg-white">
+        <h2 className="text-3xl font-bold text-center mb-12">服務項目</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {services.map((service, index) => (
+            <motion.div
+              key={service.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+            >
+              <div className="flex items-center">
+                <div className="mr-4">
+                  <img src={service.icon} alt={service.title} className="h-32 w-32" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
+                  <p className="text-gray-600">{service.description}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* 最新法務常識 */}
+      <section className="py-16" style={{ backgroundColor: '#FDF2E9' }}>
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center mb-12">最新法務常識</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <motion.div
-                key={service.title}
+            {articles.map((article, index) => (
+              <motion.article
+                key={article.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+                className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
               >
-                <div className="flex items-center">
-                  <div className="mr-4">
-                    <img src={service.icon} alt={service.title} className="h-32 w-32" />
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-semibold mb-2">{service.title}</h3>
-                    <p className="text-gray-600">{service.description}</p>
-                  </div>
+                <img src={article.image} alt={article.title} className="w-full h-48 object-cover mb-4" />
+                <div className="text-sm text-primary mb-2">{article.category}</div>
+                <h3 className="text-xl font-bold mb-2">{article.title}</h3>
+                <p className="text-gray-600 mb-4">{article.summary}</p>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-500">{article.date}</span>
+                  <a href="#" className="text-primary hover:text-[#d35400] transition-colors duration-200">
+                    閱讀更多 →
+                  </a>
                 </div>
-              </motion.div>
+              </motion.article>
             ))}
           </div>
-        </section>
-
-        {/* 最新法務常識 */}
-        <section className="py-16" style={{ backgroundColor: '#FDF2E9' }}>
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-12">最新法務常識</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {articles.map((article, index) => (
-                <motion.article
-                  key={article.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
-                >
-                  <img src={article.image} alt={article.title} className="w-full h-48 object-cover mb-4" />
-                  <div className="text-sm text-primary mb-2">{article.category}</div>
-                  <h3 className="text-xl font-bold mb-2">{article.title}</h3>
-                  <p className="text-gray-600 mb-4">{article.summary}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500">{article.date}</span>
-                    <a href="#" className="text-primary hover:text-[#d35400] transition-colors duration-200">
-                      閱讀更多 →
-                    </a>
-                  </div>
-                </motion.article>
-              ))}
-            </div>
-          </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   )
 }
