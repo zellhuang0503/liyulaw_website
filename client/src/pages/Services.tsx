@@ -174,8 +174,8 @@ const Services: React.FC = () => {
       {/* Banner 區塊 */}
       <div className="relative h-[50vh]">
         <div className="absolute inset-0 bg-black z-0">
-          <div className="absolute inset-0 bg-[url('/images/service-banner.jpg')] bg-cover bg-center" />
-          <div className="absolute inset-0 bg-black/50" />
+          <div className="absolute inset-0 bg-[url('/images/service_1.png')] bg-cover bg-center opacity-100" />
+          <div className="absolute inset-0 bg-black/30" />
         </div>
 
         <div className="relative z-10 flex flex-col justify-center items-center h-full text-white p-4 text-center">
