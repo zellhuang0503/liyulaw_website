@@ -50,12 +50,12 @@ export default function Home() {
       {/* 首頁橫幅 - 使用固定高度，不使用視窗高度 */}
       <div className="h-[800px] relative overflow-hidden" ref={bannerRef}>
         <motion.div
-          className="absolute inset-0 bg-[url('/images/Lady_Justice.png')] bg-cover bg-center"
+          className="absolute inset-0 bg-[url('/images/Lady_Justice_high_1.png')] bg-cover bg-center opacity-100"
           style={{ y }}
         />
         <div className="absolute inset-0 bg-black/30" />
 
-        <div className="relative z-10 flex flex-col justify-center items-center h-full text-white p-4 text-center">
+        <div className="relative z-10 flex flex-col justify-end items-center h-full text-white p-4 text-center pb-[180px]">
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -68,7 +68,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-xl sm:text-2xl text-shadow mb-8"
+            className="text-xl sm:text-2xl text-shadow mb-5"
           >
             專業法律諮詢，為您解決所有法律問題
           </motion.p>
