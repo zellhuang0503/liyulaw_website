@@ -158,7 +158,7 @@ const RootLayout = () => {
               <p>週六、週日：休息</p>
               <p className="mt-4">※ 如需約談請先預約</p>
               <a 
-                href="#"
+                href="/contact"
                 className="inline-block mt-4 bg-[#D0C86D] hover:bg-[#E67E22] text-white py-2 px-6 rounded-lg font-bold transition-colors duration-300"
               >
                 預約諮詢
