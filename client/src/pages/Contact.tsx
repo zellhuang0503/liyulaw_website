@@ -27,8 +27,8 @@ const Contact: React.FC = () => {
     setSubmitResult(null);
 
     try {
-      // 這裡可以添加實際的表單提交邏輯，例如 API 請求
-      // 目前僅模擬提交成功
+      // Netlify Forms 會自動處理表單提交
+      // 不需要額外的 API 請求
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       setSubmitResult({
@@ -97,7 +97,21 @@ const Contact: React.FC = () => {
             </div>
           )}
           
-          <form onSubmit={handleSubmit}>
+          <form 
+            name="consultation" 
+            method="POST" 
+            data-netlify="true" 
+            netlify-honeypot="bot-field"
+            onSubmit={handleSubmit}
+          >
+            {/* Netlify Forms 必要的隱藏欄位 */}
+            <input type="hidden" name="form-name" value="consultation" />
+            <p className="hidden">
+              <label>
+                不要填寫這個欄位如果你是人類: <input name="bot-field" />
+              </label>
+            </p>
+            
             <div className="mb-6">
               <label htmlFor="name" className="block text-gray-700 font-semibold mb-2">姓名</label>
               <input
