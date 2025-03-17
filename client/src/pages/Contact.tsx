@@ -28,22 +28,32 @@ const Contact: React.FC = () => {
     setSubmitResult(null);
 
     try {
-      // Netlify Forms 會自動處理表單提交
-      // 不需要額外的 API 請求
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // 使用 fetch 直接提交表單到 Netlify
+      const form = e.target as HTMLFormElement;
+      const formData = new FormData(form);
       
-      setSubmitResult({
-        success: true,
-        message: '您的諮詢請求已成功送出，我們將盡快與您聯繫。'
+      const response = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(formData as any).toString()
       });
       
-      // 重置表單
-      setFormData({
-        name: '',
-        phone: '',
-        email: '',
-        content: ''
-      });
+      if (response.ok) {
+        setSubmitResult({
+          success: true,
+          message: '您的諮詢請求已成功送出，我們將盡快與您聯繫。'
+        });
+        
+        // 重置表單
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          content: ''
+        });
+      } else {
+        throw new Error('表單提交失敗');
+      }
     } catch (error) {
       setSubmitResult({
         success: false,
