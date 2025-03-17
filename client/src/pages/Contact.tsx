@@ -5,6 +5,7 @@ const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
+    email: '',
     content: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -40,6 +41,7 @@ const Contact: React.FC = () => {
       setFormData({
         name: '',
         phone: '',
+        email: '',
         content: ''
       });
     } catch (error) {
@@ -123,6 +125,20 @@ const Contact: React.FC = () => {
                 required
                 className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#D0C86D] focus:border-transparent transition-all duration-300"
                 placeholder="請輸入您的姓名"
+              />
+            </div>
+            
+            <div className="mb-6">
+              <label htmlFor="email" className="block text-gray-700 font-semibold mb-2">電子郵件</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#D0C86D] focus:border-transparent transition-all duration-300"
+                placeholder="請輸入您的電子郵件"
               />
             </div>
             
