@@ -15,7 +15,8 @@
     "framer-motion": "^12.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^7.1.5",
+    "react-markdown": "^10.1.0",
+    "react-router-dom": "^7.3.0",
     "typescript": "^5.4.5"
   },
   "devDependencies": {
