@@ -190,7 +190,7 @@ const socialMediaLinks = [
     name: 'Thread',
     icon: (
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.587 1.5 12.075c0-3.509.85-6.362 2.495-8.419C5.845 1.355 8.598.174 12.179.15c3.535-.024 6.3 1.157 8.225 3.509 1.634 2.057 2.484 4.91 2.484 8.419 0 3.512-.85 6.365-2.484 8.419-1.925 2.352-4.69 3.533-8.218 3.503zm-.365-4.497c1.85-.062 2.68-1.13 2.795-2.667h-1.993c-.104.86-.638 1.25-1.445 1.25-.875 0-1.401-.62-1.401-1.587v-4.922h2.788V9.247h-2.788V6.233H7.544v3.014H6.2v2.33h1.344v4.923c0 2.26 1.12 3.065 4.277 3.003zM10.875 24h.031c3.581-.024 6.334-1.205 8.184-3.509 1.645-2.051 2.495-4.904 2.495-8.416 0-3.509-.85-6.362-2.495-8.419C17.24 1.355 14.487.174 10.906.15c-3.535-.024-6.3 1.157-8.225 3.509-1.634 2.057-2.484 4.91-2.484 8.419 0 3.512.85 6.365 2.484 8.419 1.925 2.352 4.69 3.533 8.194 3.503zm.365-4.497c-1.85-.062-2.68-1.13-2.795-2.667h1.993c.104.86.638 1.25 1.445 1.25.875 0 1.401-.62 1.401-1.587v-4.922h-2.788V9.247h2.788V6.233h2.333v3.014h1.344v2.33h-1.344v4.923c0 2.26-1.12 3.065-4.277 3.003z" />
+        <path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.121.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.572-3.843 2.572-5.992zm-18.988-2.595c.129 0 .234.105.234.234v4.153h2.287c.129 0 .233.104.233.233v.842c0 .129-.104.234-.233.234h-3.363c-.063 0-.119-.025-.161-.065-.043-.043-.068-.1-.068-.169v-5.229c0-.129.104-.233.233-.233h.838zm14.992 0c.129 0 .233.105.233.234v.842c0 .129-.104.234-.233.234h-2.287v.883h2.287c.129 0 .233.105.233.234v.842c0 .129-.104.234-.233.234h-2.287v.884h2.287c.129 0 .233.105.233.233v.842c0 .129-.104.234-.233.234h-3.363c-.063 0-.12-.025-.162-.065-.043-.043-.067-.1-.067-.169v-5.229c0-.063.025-.12.067-.162.042-.043.099-.067.162-.067h3.363zm-10.026.001c.129 0 .233.105.233.233v5.229c0 .129-.104.234-.233.234h-.837c-.129 0-.234-.105-.234-.234v-5.229c0-.128.105-.233.234-.233h.837zm2.445 0c.129 0 .233.105.233.233v5.229c0 .129-.104.234-.233.234h-.838c-.129 0-.233-.105-.233-.234v-2.539h-1.376v2.539c0 .129-.104.234-.234.234h-.837c-.129 0-.234-.105-.234-.234v-5.229c0-.128.105-.233.234-.233h.837c.13 0 .234.105.234.233v1.736h1.376v-1.736c0-.128.104-.233.234-.233h.838z"/>
       </svg>
     ),
     shareUrl: (url: string) => `https://www.threads.net/intent/post?url=${encodeURIComponent(url)}`
@@ -209,35 +209,73 @@ const Article1: React.FC = () => {
 
   // 處理目錄項目點擊
   const handleTocItemClick = (id: string) => {
+    // 直接使用 scrollToHeading 函數
+    scrollToHeading(id);
+    // 設置活躍標題
+    setActiveHeading(id);
+  };
+
+  // 滾動到指定標題
+  const scrollToHeading = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      // 計算滾動位置，考慮頁面頂部的固定元素
-      const yOffset = -80; // 調整滾動位置，避免標題被導航欄遮擋
+      const yOffset = -100; // 調整滾動位置，避免標題被導航欄遮擋
       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       
-      // 滾動到目標元素
       window.scrollTo({ top: y, behavior: 'smooth' });
       
-      // 設置活躍標題
-      setActiveHeading(id);
+      // 設置標題顏色
+      // 先將所有標題恢復原來的顏色
+      document.querySelectorAll('.article-content h2, .article-content h3, .article-content h4, .article-content h5, .article-content h6').forEach(el => {
+        (el as HTMLElement).style.color = '#34495E'; // 恢復為深藍灰色
+      });
       
-      // 將點擊的標題文字變為橘紅色
-      const headingElement = element.querySelector('h2, h3, h4, h5, h6');
-      if (headingElement) {
-        // 先將所有標題恢復原來的顏色
-        document.querySelectorAll('.article-content h2, .article-content h3, .article-content h4, .article-content h5, .article-content h6').forEach(el => {
-          (el as HTMLElement).style.color = '#34495E'; // 恢復為深藍灰色
-        });
-        
-        // 設置當前標題為橘紅色
-        (headingElement as HTMLElement).style.color = '#E67E22';
-        
-        // 5秒後恢復顏色
-        setTimeout(() => {
-          (headingElement as HTMLElement).style.color = '#34495E'; // 恢復為深藍灰色
-        }, 5000);
-      }
+      // 設置當前標題為橘紅色
+      element.style.color = '#E67E22'; // 將標題元素設為橘紅色
+      
+      // 5秒後恢復顏色
+      setTimeout(() => {
+        element.style.color = '#34495E'; // 恢復為深藍灰色
+      }, 5000);
     }
+  };
+
+  // 複製當前 URL 到剪貼簿
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(window.location.href)
+      .then(() => {
+        alert('連結已複製到剪貼簿');
+      })
+      .catch(err => {
+        console.error('無法複製連結: ', err);
+      });
+  };
+
+  // 提取標題生成目錄
+  const generateToc = (content: string) => {
+    // 匹配所有標題層級
+    const headingRegex = /^(#{1,6})\s+(.+)$/gm;
+    const matches = [...content.matchAll(headingRegex)];
+    
+    const items: TocItem[] = [];
+    
+    matches.forEach((match) => {
+      const level = match[1].length; // # 是 1，## 是 2，### 是 3
+      const text = match[2].trim();
+      // 確保 ID 生成方式與 CustomHeading 組件中的一致
+      const id = text
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, '')
+        .replace(/\s+/g, '-');
+      
+      items.push({
+        id,
+        text,
+        level
+      });
+    });
+    
+    return items;
   };
 
   // 監聽滾動事件，控制回到頂部按鈕的顯示和更新活躍標題
@@ -285,51 +323,6 @@ const Article1: React.FC = () => {
       top: 0,
       behavior: 'smooth'
     });
-  };
-
-  // 提取標題生成目錄
-  const generateToc = (content: string) => {
-    // 匹配所有標題層級
-    const headingRegex = /^(#{1,6})\s+(.+)$/gm;
-    const matches = [...content.matchAll(headingRegex)];
-    
-    const items: TocItem[] = [];
-    
-    matches.forEach((match) => {
-      const level = match[1].length; // # 是 1，## 是 2，### 是 3
-      const text = match[2].trim();
-      const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
-      
-      items.push({
-        id,
-        text,
-        level
-      });
-    });
-    
-    return items;
-  };
-
-  // 滾動到指定標題
-  const scrollToHeading = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const yOffset = -100; // 調整滾動位置，避免標題被導航欄遮擋
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      
-      window.scrollTo({ top: y, behavior: 'smooth' });
-    }
-  };
-
-  // 複製當前 URL 到剪貼簿
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(window.location.href)
-      .then(() => {
-        alert('連結已複製到剪貼簿');
-      })
-      .catch(err => {
-        console.error('無法複製連結: ', err);
-      });
   };
 
   useEffect(() => {
