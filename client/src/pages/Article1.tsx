@@ -217,14 +217,25 @@ const Article1: React.FC = () => {
 
   // 滾動到指定標題
   const scrollToHeading = (id: string) => {
+    console.log('嘗試滾動到標題:', id); // 調試用
     const element = document.getElementById(id);
+    
     if (element) {
-      const yOffset = -100; // 調整滾動位置，避免標題被導航欄遮擋
+      console.log('找到標題元素:', element); // 調試用
+      
+      // 計算滾動位置，考慮頁面頂部的固定元素
+      const yOffset = -120; // 調整滾動位置，避免標題被導航欄遮擋
       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      // 滾動到目標元素
+      window.scrollTo({ 
+        top: y, 
+        behavior: 'smooth' 
+      });
       
-      // 設置標題顏色
+      // 設置活躍標題
+      setActiveHeading(id);
+      
       // 先將所有標題恢復原來的顏色
       document.querySelectorAll('.article-content h2, .article-content h3, .article-content h4, .article-content h5, .article-content h6').forEach(el => {
         (el as HTMLElement).style.color = '#34495E'; // 恢復為深藍灰色
@@ -237,6 +248,8 @@ const Article1: React.FC = () => {
       setTimeout(() => {
         element.style.color = '#34495E'; // 恢復為深藍灰色
       }, 5000);
+    } else {
+      console.error('找不到標題元素:', id); // 調試用
     }
   };
 
@@ -262,11 +275,10 @@ const Article1: React.FC = () => {
     matches.forEach((match) => {
       const level = match[1].length; // # 是 1，## 是 2，### 是 3
       const text = match[2].trim();
-      // 確保 ID 生成方式與 CustomHeading 組件中的一致
-      const id = text
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '-');
+      
+      // 生成 ID：與 CustomHeading 組件中完全一致
+      // 注意：這裡不使用中文作為 ID，因為可能導致 URL 編碼問題
+      const id = `heading-${items.length + 1}`;
       
       items.push({
         id,
@@ -375,10 +387,10 @@ const Article1: React.FC = () => {
   const CustomHeading = ({ level, children }: { level: number, children: React.ReactNode }) => {
     if (level >= 2 && level <= 6) {
       const text = children?.toString() || '';
-      const id = text
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '-');
+      
+      // 查找對應的 tocItem 以獲取 ID
+      const tocIndex = tocItems.findIndex(item => item.text === text);
+      const id = tocIndex !== -1 ? tocItems[tocIndex].id : `heading-fallback-${Math.random().toString(36).substr(2, 9)}`;
       
       const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
       
@@ -387,7 +399,8 @@ const Article1: React.FC = () => {
         id, 
         ref: (el: HTMLHeadingElement | null) => {
           if (el) headingRefs.current[id] = el;
-        } 
+        },
+        style: { color: '#34495E' } // 初始顏色設為深藍灰色
       }, children);
     }
     
