@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 // 引入自定義元件
 import SocialShare from './SocialShare';
@@ -40,7 +40,6 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
   
   // 參考
   const contentRef = useRef<HTMLDivElement>(null);
-  const headingRefs = useRef<{[key: string]: HTMLHeadingElement | null}>({});
 
   // 處理目錄項目點擊
   const handleTocItemClick = (id: string) => {
@@ -129,92 +128,94 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
 
   // 渲染元件
   return (
-    <div className="bg-gray-50 min-h-screen">
-      {/* SEO 優化 */}
-      <Helmet>
-        <title>{pageTitle} - 立宇法律事務所</title>
-        <meta name="description" content={`${pageTitle} - 立宇法律事務所專業文章`} />
-        <meta property="og:title" content={`${pageTitle} - 立宇法律事務所`} />
-        <meta property="og:description" content={`${pageTitle} - 立宇法律事務所專業文章`} />
-        <meta property="og:type" content="article" />
-      </Helmet>
+    <HelmetProvider>
+      <div className="bg-gray-50 min-h-screen">
+        {/* SEO 優化 */}
+        <Helmet>
+          <title>{pageTitle} - 立宇法律事務所</title>
+          <meta name="description" content={`${pageTitle} - 立宇法律事務所專業文章`} />
+          <meta property="og:title" content={`${pageTitle} - 立宇法律事務所`} />
+          <meta property="og:description" content={`${pageTitle} - 立宇法律事務所專業文章`} />
+          <meta property="og:type" content="article" />
+        </Helmet>
 
-      {/* 文章樣式 */}
-      <style>{MarkdownStyles}</style>
+        {/* 文章樣式 */}
+        <style>{MarkdownStyles}</style>
 
-      {/* 文章容器 */}
-      <div className="container mx-auto px-4 py-8">
-        {/* 麵包屑導航 */}
-        <div className="text-sm text-gray-500 mb-4">
-          <Link to="/" className="hover:text-[#D0C86D]">首頁</Link>
-          <span className="mx-2">/</span>
-          <Link to="/articles" className="hover:text-[#D0C86D]">文章</Link>
-          <span className="mx-2">/</span>
-          <span className="text-gray-700">{pageTitle}</span>
-        </div>
+        {/* 文章容器 */}
+        <div className="container mx-auto px-4 py-8">
+          {/* 麵包屑導航 */}
+          <div className="text-sm text-gray-500 mb-4">
+            <Link to="/" className="hover:text-[#D0C86D]">首頁</Link>
+            <span className="mx-2">/</span>
+            <Link to="/articles" className="hover:text-[#D0C86D]">文章</Link>
+            <span className="mx-2">/</span>
+            <span className="text-gray-700">{pageTitle}</span>
+          </div>
 
-        {/* 文章內容區域 */}
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* 主要內容區 */}
-          <motion.div 
-            className="flex-1"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            {/* 文章標題 */}
-            <h1 className="text-3xl md:text-4xl font-bold text-[#34495E] mb-6">{pageTitle}</h1>
-            
-            {/* 社交分享 */}
-            <SocialShare url={window.location.href} title={pageTitle} />
-            
-            {/* 文章內容 */}
-            <div 
-              ref={contentRef}
-              className={`bg-white rounded-lg shadow-md p-6 article-content ${loading ? 'animate-pulse' : ''}`}
+          {/* 文章內容區域 */}
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* 主要內容區 */}
+            <motion.div 
+              className="flex-1"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
             >
-              {loading ? (
-                <div className="space-y-4">
-                  <div className="h-6 bg-gray-200 rounded w-3/4"></div>
-                  <div className="h-4 bg-gray-200 rounded w-full"></div>
-                  <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-                  <div className="h-4 bg-gray-200 rounded w-full"></div>
-                  <div className="h-6 bg-gray-200 rounded w-2/3 mt-8"></div>
-                  <div className="h-4 bg-gray-200 rounded w-full"></div>
-                  <div className="h-4 bg-gray-200 rounded w-full"></div>
-                </div>
-              ) : (
-                <ReactMarkdown>{content}</ReactMarkdown>
-              )}
-            </div>
-          </motion.div>
-
-          {/* 側邊欄 */}
-          <motion.div 
-            className="md:w-1/4 md:min-w-[250px]"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            {/* 目錄 */}
-            {tocItems.length > 0 && (
-              <div className="sticky top-24">
-                <div className="hidden md:block">
-                  <TableOfContents 
-                    items={tocItems} 
-                    activeHeading={activeHeading} 
-                    onItemClick={handleTocItemClick} 
-                  />
-                </div>
+              {/* 文章標題 */}
+              <h1 className="text-3xl md:text-4xl font-bold text-[#34495E] mb-6">{pageTitle}</h1>
+              
+              {/* 社交分享 */}
+              <SocialShare url={window.location.href} title={pageTitle} />
+              
+              {/* 文章內容 */}
+              <div 
+                ref={contentRef}
+                className={`bg-white rounded-lg shadow-md p-6 article-content ${loading ? 'animate-pulse' : ''}`}
+              >
+                {loading ? (
+                  <div className="space-y-4">
+                    <div className="h-6 bg-gray-200 rounded w-3/4"></div>
+                    <div className="h-4 bg-gray-200 rounded w-full"></div>
+                    <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                    <div className="h-4 bg-gray-200 rounded w-full"></div>
+                    <div className="h-6 bg-gray-200 rounded w-2/3 mt-8"></div>
+                    <div className="h-4 bg-gray-200 rounded w-full"></div>
+                    <div className="h-4 bg-gray-200 rounded w-full"></div>
+                  </div>
+                ) : (
+                  <ReactMarkdown>{content}</ReactMarkdown>
+                )}
               </div>
-            )}
-          </motion.div>
-        </div>
-      </div>
+            </motion.div>
 
-      {/* 回到頂部按鈕 */}
-      <BackToTopButton visible={showBackToTop} onClick={scrollToTop} />
-    </div>
+            {/* 側邊欄 */}
+            <motion.div 
+              className="md:w-1/4 md:min-w-[250px]"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              {/* 目錄 */}
+              {tocItems.length > 0 && (
+                <div className="sticky top-24">
+                  <div className="hidden md:block">
+                    <TableOfContents 
+                      items={tocItems} 
+                      activeHeading={activeHeading} 
+                      onItemClick={handleTocItemClick} 
+                    />
+                  </div>
+                </div>
+              )}
+            </motion.div>
+          </div>
+        </div>
+
+        {/* 回到頂部按鈕 */}
+        <BackToTopButton visible={showBackToTop} onClick={scrollToTop} />
+      </div>
+    </HelmetProvider>
   );
 };
 
