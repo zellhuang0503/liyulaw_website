@@ -354,6 +354,9 @@ const Article1: React.FC = () => {
         // 移除文章中的第一個 h1 標題，避免與頁面標題重複
         text = text.replace(/^#\s+.*$/m, '');
         
+        // 移除文章最後的 HTML 標籤
+        text = text.replace(/<div style="text-align: center">⁂<\/div>/, '');
+        
         // 提取目錄
         const toc = generateToc(text);
         setTocItems(toc);
