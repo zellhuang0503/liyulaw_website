@@ -32,6 +32,9 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article, toc }) => {
     },
   };
 
+  console.log('渲染文章內容，長度:', article?.length);
+  console.log('文章內容前100個字符:', article?.substring(0, 100));
+
   return (
     <div className="article-content">
       <ReactMarkdown 

@@ -13,8 +13,36 @@ export type ArticleCategory = 'criminal' | 'civil' | 'family' | 'commercial' | '
  * @returns 對應的檔案路徑
  */
 export const resolveArticleFilePath = (category: ArticleCategory, id: string): string => {
-  // 根據類別和ID生成檔案路徑
-  return `/articles/${category}/${id}.md`;
+  // 根據類別和ID查找對應的文章檔案
+  // 首先嘗試查找特定的文章檔案
+  switch(category) {
+    case 'criminal':
+      if (id === '1') {
+        return '/article/公然侮辱與誹謗的法律界線：如何保護自己的名譽權？.md';
+      } else if (id === '7') {
+        return '/article/犯罪被害人補償制度：如何申請與獲得法律保障.md';
+      }
+      break;
+    case 'civil':
+      if (id === '1') {
+        return '/article/民事訴訟目的與流程：權利保護的法律程序.md';
+      } else if (id === '2') {
+        return '/article/小額訴訟攻略：快速解決民事糾紛的途徑.md';
+      } else if (id === '3') {
+        return '/article/合議制與獨任制：民事法院審判制度解析.md';
+      }
+      break;
+    case 'family':
+      if (id === '1') {
+        return '/article/高齡父母財產規劃：老年人法律保障與財產傳承.md';
+      }
+      break;
+    // 可以繼續添加其他類別的映射
+  }
+  
+  // 如果找不到特定映射，則使用通用格式
+  console.log(`找不到特定映射，使用通用格式: /article/${category}-${id}.md`);
+  return `/article/${category}-${id}.md`;
 };
 
 /**

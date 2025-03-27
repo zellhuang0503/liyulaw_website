@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 import '../styles/article.css';
 
 // 引入組件
-import TableOfContents from '../components/TableOfContents';
-import RelatedArticles from '../components/RelatedArticles';
+import TableOfContents from '../components/article/ArticleToc';
+import RelatedArticles from '../components/article/RelatedArticlesList';
 import ShareArticle from '../components/ShareArticle';
 import ArticleLoader from '../components/article/ArticleLoader';
 import ReadingProgress from '../components/article/ReadingProgress';
@@ -99,12 +99,6 @@ const ArticlePage: React.FC = () => {
   // 提取文章目錄
   const toc = extractToc(article);
 
-  // 相關文章數據
-  const relatedArticles = [
-    { id: '1', category: 'criminal', title: '公然侮辱與誹謗的法律界線', summary: '了解名譽權受侵害時的法律救濟途徑...' },
-    { id: '2', category: 'criminal', title: '網路罵人價目表', summary: '探討網路言論的法律風險與可能賠償...' },
-  ];
-
   return (
     <div className="article-page">
       {/* 文章載入器組件 */}
@@ -137,7 +131,7 @@ const ArticlePage: React.FC = () => {
           <div className="article-body">
             <div className="article-sidebar">
               {/* 文章目錄組件 */}
-              <TableOfContents items={toc} activeItemId={activeHeadingId} />
+              <TableOfContents toc={toc} activeHeadingId={activeHeadingId} />
               
               {/* 分享文章組件 */}
               <ShareArticle title={title} url={window.location.href} />
@@ -149,8 +143,8 @@ const ArticlePage: React.FC = () => {
               
               {/* 相關文章組件 */}
               <RelatedArticles 
-                articles={relatedArticles}
-                currentArticleId={`${category}-${id}`}
+                currentCategory={category || ''}
+                currentId={id || ''}
               />
             </div>
           </div>
