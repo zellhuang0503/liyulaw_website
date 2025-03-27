@@ -42,17 +42,9 @@ const ShareArticle: React.FC<ShareArticleProps> = ({ title, url }) => {
     tap: { scale: 0.95 }
   };
 
-  // 按鈕共用樣式
-  const buttonStyle = {
-    width: '40px',
-    height: '40px'
-  };
-  
   return (
-    <div className="pt-4 border-t border-gray-200">
-      <h3 className="font-semibold text-gray-900 mb-3">分享文章</h3>
-      
-      <div className="flex space-x-3">
+    <div className="flex flex-col">
+      <div className="flex justify-center space-x-4 mb-4">
         {/* Facebook */}
         <motion.button
           variants={buttonVariants}
@@ -60,8 +52,7 @@ const ShareArticle: React.FC<ShareArticleProps> = ({ title, url }) => {
           whileHover="hover"
           whileTap="tap"
           onClick={shareToFacebook}
-          className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors share-button flex items-center justify-center"
-          style={buttonStyle}
+          className="w-12 h-12 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors shadow-md flex items-center justify-center"
           aria-label="分享到 Facebook"
         >
           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -76,8 +67,7 @@ const ShareArticle: React.FC<ShareArticleProps> = ({ title, url }) => {
           whileHover="hover"
           whileTap="tap"
           onClick={shareToTwitter}
-          className="p-2 bg-blue-400 text-white rounded-full hover:bg-blue-500 transition-colors share-button flex items-center justify-center"
-          style={buttonStyle}
+          className="w-12 h-12 bg-blue-400 text-white rounded-full hover:bg-blue-500 transition-colors shadow-md flex items-center justify-center"
           aria-label="分享到 Twitter"
         >
           <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -92,14 +82,13 @@ const ShareArticle: React.FC<ShareArticleProps> = ({ title, url }) => {
           whileHover="hover"
           whileTap="tap"
           onClick={shareToLine}
-          className="p-0 bg-[#06C755] text-white rounded-full hover:bg-green-600 transition-colors share-button flex items-center justify-center overflow-hidden"
-          style={buttonStyle}
+          className="w-12 h-12 bg-[#06C755] text-white rounded-full hover:bg-green-600 transition-colors shadow-md flex items-center justify-center overflow-hidden"
           aria-label="分享到 LINE"
         >
           <img 
             src="/images/line40x40.svg" 
             alt="分享到 LINE" 
-            className="w-full h-full object-cover"
+            className="w-8 h-8 object-cover"
           />
         </motion.button>
         
@@ -110,8 +99,7 @@ const ShareArticle: React.FC<ShareArticleProps> = ({ title, url }) => {
           whileHover="hover"
           whileTap="tap"
           onClick={copyLink}
-          className="p-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors share-button flex items-center justify-center"
-          style={buttonStyle}
+          className="w-12 h-12 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300 transition-colors shadow-md flex items-center justify-center"
           aria-label="複製連結"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -122,9 +110,14 @@ const ShareArticle: React.FC<ShareArticleProps> = ({ title, url }) => {
       
       {/* 複製成功提示 */}
       {isCopied && (
-        <div className="mt-2 text-sm text-green-600 font-medium">
+        <motion.div 
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          className="text-center py-2 px-4 bg-green-100 text-green-700 rounded-md font-medium text-sm"
+        >
           連結已複製到剪貼簿！
-        </div>
+        </motion.div>
       )}
     </div>
   );

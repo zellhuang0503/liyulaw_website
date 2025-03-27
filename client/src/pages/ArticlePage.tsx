@@ -99,8 +99,27 @@ const ArticlePage: React.FC = () => {
   // 提取文章目錄
   const toc = extractToc(article);
 
+  // 獲取類別的中文名稱
+  const getCategoryName = (category: string) => {
+    switch (category) {
+      case 'criminal':
+        return '刑事法律';
+      case 'civil':
+        return '民事法律';
+      case 'administrative':
+        return '行政法律';
+      case 'corporate':
+        return '企業法務';
+      default:
+        return '法律知識';
+    }
+  };
+
   return (
     <div className="article-page">
+      {/* 閱讀進度條 */}
+      <ReadingProgress progress={readingProgress} />
+
       {/* 文章載入器組件 */}
       <ArticleLoader 
         category={category || ''} 
@@ -109,8 +128,13 @@ const ArticlePage: React.FC = () => {
         onLoadingChange={handleLoadingChange}
       />
 
-      {/* 閱讀進度條 */}
-      <ReadingProgress progress={readingProgress} />
+      {/* 頁面標題區塊 */}
+      <div className="page-header bg-gradient-to-r from-blue-900 to-teal-800 text-white py-16">
+        <div className="container mx-auto px-4">
+          <h1 className="text-4xl font-bold mb-2">{getCategoryName(category || '')}</h1>
+          <p className="text-lg opacity-80">專業法律知識，助您了解權益與義務</p>
+        </div>
+      </div>
 
       {loading ? (
         <div className="loading-container">
@@ -129,14 +153,6 @@ const ArticlePage: React.FC = () => {
           </div>
 
           <div className="article-body">
-            <div className="article-sidebar">
-              {/* 文章目錄組件 */}
-              <TableOfContents toc={toc} activeHeadingId={activeHeadingId} />
-              
-              {/* 分享文章組件 */}
-              <ShareArticle title={title} url={window.location.href} />
-            </div>
-
             <div className="article-main">
               {/* 文章內容組件 */}
               <ArticleContent article={article} toc={toc} />
@@ -146,6 +162,17 @@ const ArticlePage: React.FC = () => {
                 currentCategory={category || ''}
                 currentId={id || ''}
               />
+            </div>
+
+            <div className="article-sidebar">
+              {/* 文章目錄組件 */}
+              <TableOfContents toc={toc} activeHeadingId={activeHeadingId} />
+              
+              {/* 分享文章組件 */}
+              <div className="share-container">
+                <h3 className="text-lg font-semibold mb-4">分享文章</h3>
+                <ShareArticle title={title} url={window.location.href} />
+              </div>
             </div>
           </div>
         </motion.div>
