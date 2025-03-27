@@ -84,12 +84,14 @@ const ShareArticle: React.FC<ShareArticleProps> = ({ title, url }) => {
           whileHover="hover"
           whileTap="tap"
           onClick={shareToLine}
-          className="p-2 bg-[#06C755] text-white rounded-full hover:bg-green-600 transition-colors share-button"
+          className="p-2 bg-white rounded-full hover:bg-gray-100 transition-colors share-button"
           aria-label="分享到 LINE"
         >
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M19.365 9.89c.5 0 .907.41.907.91 0 .5-.407.91-.907.91H17.31v1.306h2.055c.5 0 .907.41.907.908 0 .502-.407.91-.907.91h-2.964c-.5 0-.908-.408-.908-.91v-4.045c0-.5.407-.91.908-.91h2.964c.5 0 .907.41.907.91 0 .5-.407.91-.907.91H17.31v1.102h2.055zM11.247 9.897c.5 0 .907.408.907.908v4.046c0 .5-.407.91-.907.91s-.91-.41-.91-.91v-4.046c0-.5.41-.908.91-.908zm-3.97 5.864c-.5 0-.91-.408-.91-.91V10.8H5.267c-.5 0-.91-.41-.91-.91 0-.5.41-.908.91-.908h4.046c.5 0 .908.41.908.91v4.044c0 .5-.408.91-.908.91h-2.036zm14.633-9.287C21.91 1.983 17.723 0 12.908 0 5.632 0 0 4.746 0 10.603c0 5.24 4.488 9.627 10.546 10.443.411.092.97.28 1.112.644.127.328.082.84.04 1.171l-.178 1.1c-.056.327-.255 1.28.546.698 1.007-.732 5.448-3.26 7.425-5.58 1.372-1.53 2.033-3.085 2.033-5.2v-.004c0-.267-.008-.536-.023-.803z" />
-          </svg>
+          <img 
+            src="/images/line.png" 
+            alt="分享到 LINE" 
+            className="w-5 h-5"
+          />
         </motion.button>
         
         {/* 複製連結 */}
