@@ -2,17 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
 import TableOfContents from '../components/TableOfContents';
 import RelatedArticles from '../components/RelatedArticles';
 import ShareArticle from '../components/ShareArticle';
 import '../styles/article.css';
+import axios from 'axios';
 
 // 定義文章內容映射表
 interface ArticleContentMap {
   [key: string]: string;
 }
 
-// 文章內容資料庫
+// 文章標題映射表
+const articleTitles: { [key: string]: string } = {
+  'criminal-1': '公然侮辱與誹謗的法律界線：如何保護自己的名譽權？',
+  'criminal-2': '網路罵人價目表：各類言論的法律風險與可能賠償金額',
+  // 可以在這裡添加更多文章標題
+};
+
+// 文章內容資料庫 (作為備用，當無法從文件讀取時使用)
 const articleContent: ArticleContentMap = {
   'criminal-1': `# 公然侮辱與誹謗的法律界線：如何保護自己的名譽權？
 
@@ -177,33 +186,74 @@ const ArticlePage: React.FC = () => {
   }, [article]); // 當文章內容變化時重新綁定事件
 
   useEffect(() => {
-    // 使用預設的文章內容，不從外部獲取
-    const loadArticle = () => {
+    // 從 public/article 目錄讀取 Markdown 文件
+    const loadArticle = async () => {
       try {
         // 根據類別和 ID 構建文章索引
         const articleKey = `${category}-${id}`;
         
+        // 嘗試從預設標題映射中獲取文章標題
+        const defaultTitle = articleTitles[articleKey] || '未知標題';
+        
+        // 根據文章標題構建文件路徑
+        let fileName = '';
+        
+        if (category === 'criminal' && id === '1') {
+          fileName = '公然侮辱與誹謗的法律界線：如何保護自己的名譽權？.md';
+        } else if (category === 'criminal' && id === '2') {
+          fileName = '網路罵人價目表：各類言論的法律風險與可能賠償金額.md';
+        } else {
+          // 可以在這裡添加更多文章的映射
+          // 如果找不到對應的文件名，嘗試使用預設內容
+          if (articleContent[articleKey]) {
+            const content = articleContent[articleKey];
+            const titleMatch = content.match(/^# (.+)$/m);
+            const articleTitle = titleMatch ? titleMatch[1] : defaultTitle;
+            
+            setArticle(content);
+            setTitle(articleTitle);
+            setLoading(false);
+            return;
+          } else {
+            // 如果找不到對應的文章，使用預設訊息
+            setArticle('# 文章尚未上線\n\n此文章正在編寫中，請稍後再訪問。');
+            setTitle('文章尚未上線');
+            setLoading(false);
+            return;
+          }
+        }
+        
+        // 構建完整的文件路徑
+        const filePath = `/article/${fileName}`;
+        
+        // 使用 axios 獲取 Markdown 文件內容
+        const response = await axios.get(filePath);
+        const content = response.data;
+        
+        // 從內容中提取標題（第一行的 # 後面的內容）
+        const titleMatch = content.match(/^# (.+)$/m);
+        const articleTitle = titleMatch ? titleMatch[1] : defaultTitle;
+        
+        setArticle(content);
+        setTitle(articleTitle);
+        setLoading(false);
+      } catch (error) {
+        console.error('無法載入文章:', error);
+        
+        // 嘗試使用預設內容作為備用
+        const articleKey = `${category}-${id}`;
         if (articleContent[articleKey]) {
-          // 從預設內容中獲取文章
           const content = articleContent[articleKey];
-          
-          // 從內容中提取標題（第一行的 # 後面的內容）
           const titleMatch = content.match(/^# (.+)$/m);
           const articleTitle = titleMatch ? titleMatch[1] : '未知標題';
           
           setArticle(content);
           setTitle(articleTitle);
         } else {
-          // 如果找不到對應的文章，使用預設訊息
-          setArticle('# 文章尚未上線\n\n此文章正在編寫中，請稍後再訪問。');
-          setTitle('文章尚未上線');
+          setArticle('# 載入文章時發生錯誤\n\n請稍後再試，或聯繫網站管理員。');
+          setTitle('載入錯誤');
         }
         
-        setLoading(false);
-      } catch (error) {
-        console.error('無法載入文章:', error);
-        setArticle('# 載入文章時發生錯誤\n\n請稍後再試，或聯繫網站管理員。');
-        setTitle('載入錯誤');
         setLoading(false);
       }
     };
@@ -353,7 +403,7 @@ const ArticlePage: React.FC = () => {
                 {/* 文章內容 */}
                 <div className="p-6 sm:p-8">
                   <div className="prose prose-lg max-w-none article-content">
-                    <ReactMarkdown components={customRenderers}>{article}</ReactMarkdown>
+                    <ReactMarkdown rehypePlugins={[rehypeRaw]} components={customRenderers}>{article}</ReactMarkdown>
                   </div>
                   
                   {/* 文章評分 */}
