@@ -2,17 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import ReactMarkdown from 'react-markdown';
-import TableOfContents from '../components/TableOfContents';
-import RelatedArticles from '../components/RelatedArticles';
-import ShareArticle from '../components/ShareArticle';
-import '../styles/article.css';
 
 // 定義文章內容映射表
 interface ArticleContentMap {
   [key: string]: string;
 }
 
-// 文章內容資料庫
+// 文章內容資料庫 (僅保留示例，實際使用時會從外部獲取)
 const articleContent: ArticleContentMap = {
   'criminal-1': `# 公然侮辱與誹謗的法律界線：如何保護自己的名譽權？
 
@@ -26,86 +22,17 @@ const articleContent: ArticleContentMap = {
 根據《刑法》第309條，公然侮辱是指以公然方式，以言詞、文字、圖畫或其他方法，損害他人名譽的行為。「公然」指的是不特定多數人得以共見共聞的狀態。
 
 ### 誹謗
-《刑法》第310條規定，誹謗是指以散布於眾或以文字、圖畫刊布的方式，指摘或傳述足以損害他人名譽的具體事件。
-
-## 二、公然侮辱與誹謗的構成要件
-
-### 公然侮辱的構成要件
-1. **公然性**：行為必須在公開場合或能被不特定多數人知悉的情況下進行
-2. **侮辱行為**：具有貶低他人人格、尊嚴的言行
-3. **對象特定**：針對特定的自然人或法人
-4. **主觀故意**：行為人主觀上有侮辱他人的故意
-
-### 誹謗的構成要件
-1. **散布於眾**：將訊息傳播給不特定多數人知悉
-2. **具體事件**：指摘或傳述具體事實，而非單純的評價或意見
-3. **足以損害名譽**：所述內容足以降低他人在社會上的評價
-4. **主觀故意**：行為人主觀上有傳述損害他人名譽事實的故意
-
-## 三、言論自由與名譽權的平衡
-
-### 《刑法》第310條第3項的特別規定
-為平衡言論自由與名譽權保護，法律規定：如果行為人能證明其言論內容為真實，且為維護公共利益所必要，則不罰。這被稱為「真實惡意原則」。
-
-### 公共人物與私人的區別
-對於政治人物、名人等公眾人物，由於其行為與公共利益密切相關，一般認為他們應承受較高程度的批評，但這並不代表可以任意侮辱或誹謗。
-
-### 言論的性質與保護強度
-- **事實陳述**：需對其真實性負責
-- **價值判斷**：屬於意見表達，受較高程度的保護
-- **混合型言論**：部分事實、部分評價的言論，需根據具體情況分析
-
-## 四、網路時代的名譽權保護
-
-### 社群媒體發言的法律風險
-在Facebook、Instagram、LINE等社群平台發表的言論，只要符合公然侮辱或誹謗的構成要件，同樣可能構成犯罪。
-
-### 常見的侵權態樣
-1. 在社群媒體公開批評他人的具體缺失
-2. 在評論區留下侮辱性言論
-3. 轉發未經證實的負面訊息
-4. 使用假帳號散布不實言論
-
-## 五、名譽權受侵害時的法律救濟
-
-### 刑事救濟途徑
-1. **提出告訴**：公然侮辱與誹謗屬於告訴乃論罪，被害人需在得知加害人身分後6個月內提出告訴
-2. **刑事調解**：可在偵查或審判階段提出調解請求，尋求和解
-
-### 民事救濟途徑
-1. **請求損害賠償**：依《民法》第18條、第184條及第195條請求賠償
-2. **請求回復名譽**：要求行為人採取適當方式（如登報道歉）回復名譽
-
-### 其他救濟方式
-1. **網路平台檢舉**：要求平台移除侵權內容
-2. **向NCC投訴**：針對媒體的不實報導向國家通訊傳播委員會投訴
-
-## 六、保護自身名譽權的實用建議
-
-### 預防性措施
-1. 保持良好的社交媒體使用習慣
-2. 定期搜尋與自己相關的網路訊息
-3. 謹慎處理個人資料，避免資訊外洩
-
-### 遇到名譽侵害時的處置
-1. 保存證據，包括截圖、網址、發言時間等
-2. 評估侵害程度，選擇適合的救濟途徑
-3. 考慮先私下溝通，尋求和解可能
-4. 必要時尋求專業法律協助
-
-## 結語
-
-在資訊爆炸的時代，每個人都可能成為公然侮辱或誹謗的加害人或被害人。了解相關法律界限，既能保護自己的言論自由，也能守護個人的名譽權。在行使言論自由時，應謹記：言論自由並非無限上綱，它的邊界是他人的合法權益。`,
+《刑法》第310條規定，誹謗是指以散布於眾或以文字、圖畫刊布的方式，指摘或傳述足以損害他人名譽的具體事件。`,
 };
 
 // 相關文章列表
 const relatedArticles = [
-  { id: '2', category: 'criminal', title: '公然侮辱罪的法律構成要件', summary: '深入解析公然侮辱罪的構成要件與相關案例分析...' },
-  { id: '3', category: 'criminal', title: '誹謗罪的法律構成要件', summary: '了解誹謗罪的法律要件與抗辯事由...' },
-  { id: '4', category: 'criminal', title: '網路行為的法律責任', summary: '探討在網路上的言論可能帶來的法律風險...' },
-  { id: '1', category: 'civil', title: '名譽權受侵害的民事救濟', summary: '當名譽受損時，可以採取哪些民事救濟途徑...' },
-  { id: '2', category: 'civil', title: '主觀惡意原則的適用', summary: '真實惡意原則在台灣法律實務的適用與發展...' },
-  { id: '3', category: 'civil', title: '言論自由與名譽權的平衡', summary: '如何在保障言論自由的同時保護個人名譽權...' },
+  { id: 'criminal-2', category: 'criminal', title: '公然侮辱罪的法律構成要件' },
+  { id: 'criminal-3', category: 'criminal', title: '誹謗罪的法律構成要件' },
+  { id: 'criminal-4', category: 'criminal', title: '網路行為的法律責任' },
+  { id: 'civil-1', category: 'civil', title: '名譽權受侵害的民事救濟' },
+  { id: 'civil-2', category: 'civil', title: '主觀惡意原則的適用' },
+  { id: 'civil-3', category: 'civil', title: '言論自由與名譽權的平衡' },
 ];
 
 // 文章分類
@@ -116,13 +43,14 @@ const categories = [
   { id: 'procedure', name: '訴訟程序' },
 ];
 
-const ArticlePage: React.FC = () => {
+const ArticlePageNew: React.FC = () => {
   const { category, id } = useParams<{ category: string; id: string }>();
   const [article, setArticle] = useState<string>('');
   const [title, setTitle] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
+  const [activeTab, setActiveTab] = useState<string>('content'); // 'content' or 'related'
   const [readingProgress, setReadingProgress] = useState<number>(0);
-  const [activeHeadingId, setActiveHeadingId] = useState<string>('');
+  const [showToc, setShowToc] = useState<boolean>(true);
 
   // 監聽滾動事件，更新閱讀進度
   useEffect(() => {
@@ -184,22 +112,6 @@ const ArticlePage: React.FC = () => {
 
   const toc = extractToc(article);
 
-  // 處理 Markdown 內容，添加標題 ID
-  const processMarkdown = (content: string) => {
-    let processedContent = content;
-    const headings = content.match(/^#{2,3} (.+)$/gm) || [];
-    
-    headings.forEach((heading, index) => {
-      const headingId = `heading-${index}`;
-      const headingWithId = heading + ` {#${headingId}}`;
-      processedContent = processedContent.replace(heading, headingWithId);
-    });
-    
-    return processedContent;
-  };
-
-  const processedArticle = processMarkdown(article);
-
   // 頁面動畫
   const pageVariants = {
     initial: { opacity: 0, y: 20 },
@@ -220,7 +132,7 @@ const ArticlePage: React.FC = () => {
       {/* 閱讀進度條 */}
       <div className="fixed top-0 left-0 w-full h-1 z-50">
         <div 
-          className="h-full bg-primary progress-bar transition-all duration-300 ease-out"
+          className="h-full bg-primary transition-all duration-300 ease-out"
           style={{ width: `${readingProgress}%` }}
         />
       </div>
@@ -282,23 +194,75 @@ const ArticlePage: React.FC = () => {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* 側邊欄 */}
-            <div className="lg:w-1/4 order-2 lg:order-1">
-              <div className="lg:sticky lg:top-24 space-y-6">
-                {/* 目錄 */}
-                <TableOfContents items={toc} activeItemId={activeHeadingId} />
+            <div className="lg:w-1/4">
+              <div className="bg-white rounded-xl shadow-sm p-6 sticky top-24">
+                {/* 目錄切換按鈕 */}
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-semibold text-gray-900">文章目錄</h3>
+                  <button 
+                    onClick={() => setShowToc(!showToc)}
+                    className="text-gray-500 hover:text-primary"
+                  >
+                    {showToc ? '隱藏' : '顯示'}
+                  </button>
+                </div>
                 
-                {/* 分享文章 */}
-                <div className="bg-white rounded-xl shadow-sm p-6">
-                  <ShareArticle 
-                    title={title} 
-                    url={window.location.href} 
-                  />
+                {/* 目錄內容 */}
+                {showToc && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="space-y-2 mb-6"
+                  >
+                    {toc.map((item) => (
+                      <a
+                        key={item.id}
+                        href={`#${item.id}`}
+                        className={`block text-sm py-1 border-l-2 pl-3 hover:text-primary transition-colors ${
+                          item.level === 2 
+                            ? 'border-primary text-gray-900 font-medium' 
+                            : 'border-gray-200 text-gray-600 ml-3'
+                        }`}
+                      >
+                        {item.text}
+                      </a>
+                    ))}
+                  </motion.div>
+                )}
+                
+                {/* 分享區域 */}
+                <div className="pt-4 border-t border-gray-200">
+                  <h3 className="font-semibold text-gray-900 mb-3">分享文章</h3>
+                  <div className="flex space-x-3">
+                    <button className="p-2 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-colors">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fillRule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                    <button className="p-2 bg-blue-400 text-white rounded-full hover:bg-blue-500 transition-colors">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                      </svg>
+                    </button>
+                    <button className="p-2 bg-green-600 text-white rounded-full hover:bg-green-700 transition-colors">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fillRule="evenodd" d="M18.968 8.37C18.968 4.58 15.8 1.5 12 1.5S5.032 4.58 5.032 8.37c0 3.392 3.067 6.23 7.2 6.75.28.06.663.186.76.425.087.217.056.557.027.775 0 0-.1.607-.122.735-.037.186-.17.728.636.397.806-.33 4.354-2.573 5.94-4.404 1.1-1.214 1.495-2.446 1.495-4.678zm-3.748 3.578a.409.409 0 0 1-.285.096h-2.1a.11.11 0 0 0-.11.11v.15c0 .06.05.11.11.11h2.1c.106 0 .211.042.285.096a.365.365 0 0 1 .075.454.409.409 0 0 1-.285.096h-2.1c-.32 0-.578.258-.578.577v.578c0 .06.05.11.11.11h2.1c.106 0 .211.042.285.096a.365.365 0 0 1 .075.454.409.409 0 0 1-.285.096h-2.1a.11.11 0 0 0-.11.11v.578c0 .319-.258.577-.578.577h-.578a.576.576 0 0 1-.577-.577v-.578a.11.11 0 0 0-.11-.11h-2.1a.409.409 0 0 1-.285-.096.365.365 0 0 1-.075-.454.409.409 0 0 1 .285-.096h2.1c.06 0 .11-.05.11-.11v-.578a.11.11 0 0 0-.11-.11h-2.1a.409.409 0 0 1-.285-.096.365.365 0 0 1-.075-.454.409.409 0 0 1 .285-.096h2.1c.06 0 .11-.05.11-.11v-.15a.11.11 0 0 0-.11-.11h-2.1a.409.409 0 0 1-.285-.096.365.365 0 0 1-.075-.454.409.409 0 0 1 .285-.096h2.1c.06 0 .11-.05.11-.11v-.578c0-.319.258-.577.578-.577h.578c.32 0 .578.258.578.577v.578c0 .06.05.11.11.11h2.1c.106 0 .211.042.285.096a.365.365 0 0 1 .075.454z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                    <button className="p-2 bg-blue-800 text-white rounded-full hover:bg-blue-900 transition-colors">
+                      <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fillRule="evenodd" d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z" clipRule="evenodd" />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
             
             {/* 文章主體 */}
-            <div className="lg:w-3/4 order-1 lg:order-2">
+            <div className="lg:w-3/4">
               <motion.div
                 initial="initial"
                 animate="animate"
@@ -309,8 +273,8 @@ const ArticlePage: React.FC = () => {
               >
                 {/* 文章內容 */}
                 <div className="p-6 sm:p-8">
-                  <div className="prose prose-lg max-w-none article-content">
-                    <ReactMarkdown>{processedArticle}</ReactMarkdown>
+                  <div className="prose prose-lg max-w-none">
+                    <ReactMarkdown>{article}</ReactMarkdown>
                   </div>
                   
                   {/* 文章評分 */}
@@ -334,10 +298,23 @@ const ArticlePage: React.FC = () => {
                 </div>
                 
                 {/* 相關文章 */}
-                <RelatedArticles 
-                  articles={relatedArticles}
-                  currentArticleId={`${category}-${id}`}
-                />
+                <div className="bg-gray-50 p-6 sm:p-8 border-t border-gray-200">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-6">相關文章</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {relatedArticles.slice(0, 4).map((article) => (
+                      <Link 
+                        key={`${article.category}-${article.id}`}
+                        to={`/knowledge/${article.category}/${article.id}`}
+                        className="block bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                      >
+                        <h4 className="font-medium text-gray-900 mb-2">{article.title}</h4>
+                        <p className="text-sm text-gray-600">
+                          了解更多關於{article.title}的法律知識...
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               </motion.div>
             </div>
           </div>
@@ -347,4 +324,4 @@ const ArticlePage: React.FC = () => {
   );
 };
 
-export default ArticlePage;
+export default ArticlePageNew;

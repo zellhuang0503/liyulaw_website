@@ -12,9 +12,12 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@types/react-helmet": "^6.1.11",
     "framer-motion": "^12.4.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-helmet": "^6.1.0",
+    "react-helmet-async": "^2.0.5",
     "react-markdown": "^10.1.0",
     "react-router-dom": "^7.3.0",
     "typescript": "^5.4.5"

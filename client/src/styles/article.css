@@ -1,0 +1,135 @@
+/* 文章頁面自定義樣式 */
+
+:root {
+  --color-primary: #D0C86D;
+  --color-primary-dark: #b8b058;
+  --color-secondary: #E67E22;
+  --color-secondary-dark: #d35400;
+  --color-text: #333333;
+  --color-text-light: #666666;
+  --color-background: #f8f9fa;
+  --color-border: #e2e8f0;
+}
+
+/* 閱讀進度條動畫 */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.progress-bar {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* 文章內容樣式增強 */
+.article-content {
+  font-family: 'Noto Sans TC', sans-serif;
+  line-height: 1.8;
+  color: var(--color-text);
+}
+
+.article-content h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #2d3748;
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: 0.5rem;
+}
+
+.article-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #4a5568;
+}
+
+.article-content p {
+  margin-bottom: 1.25rem;
+}
+
+.article-content ul, .article-content ol {
+  margin-bottom: 1.25rem;
+  padding-left: 1.5rem;
+}
+
+.article-content li {
+  margin-bottom: 0.5rem;
+}
+
+.article-content blockquote {
+  border-left: 4px solid var(--color-primary);
+  padding-left: 1rem;
+  font-style: italic;
+  color: var(--color-text-light);
+  margin: 1.5rem 0;
+}
+
+.article-content a {
+  color: var(--color-secondary);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--color-secondary);
+  transition: all 0.2s ease;
+}
+
+.article-content a:hover {
+  color: var(--color-secondary-dark);
+  border-bottom: 1px solid var(--color-secondary-dark);
+}
+
+/* 目錄樣式 */
+.toc-container {
+  max-height: 60vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary) var(--color-background);
+}
+
+.toc-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.toc-container::-webkit-scrollbar-track {
+  background: var(--color-background);
+}
+
+.toc-container::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 3px;
+}
+
+/* 分享按鈕懸停效果 */
+.share-button {
+  transform: scale(1);
+  transition: transform 0.2s ease;
+}
+
+.share-button:hover {
+  transform: scale(1.1);
+}
+
+/* 相關文章卡片懸停效果 */
+.related-article-card {
+  transition: all 0.3s ease;
+}
+
+.related-article-card:hover {
+  transform: translateY(-4px);
+}
+
+/* 響應式調整 */
+@media (max-width: 768px) {
+  .article-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  .article-content h3 {
+    font-size: 1.25rem;
+  }
+}
