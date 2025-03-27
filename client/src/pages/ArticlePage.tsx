@@ -1,518 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import ReactMarkdown from 'react-markdown';
-import rehypeRaw from 'rehype-raw';
+import '../styles/article.css';
+
+// 引入組件
 import TableOfContents from '../components/TableOfContents';
 import RelatedArticles from '../components/RelatedArticles';
 import ShareArticle from '../components/ShareArticle';
-import '../styles/article.css';
-import axios from 'axios';
-
-// 定義文章內容映射表
-interface ArticleContentMap {
-  [key: string]: string;
-}
-
-// 文章標題映射表
-const articleTitles: { [key: string]: string } = {
-  'criminal-1': '公然侮辱與誹謗的法律界線：如何保護自己的名譽權？',
-  'criminal-2': '網路罵人價目表：各類言論的法律風險與可能賠償金額',
-  'criminal-3': '軍法是什麼？現役軍人的特殊法律責任',
-  'criminal-4': '電子煙的法律地位：使用電子煙是否違反菸害防制法？',
-  'criminal-5': '立法委員言論免責權的界限：公職人員發言的法律保障',
-  'criminal-6': '刑事案件自保指南：被警察約談時的權利與義務',
-  'criminal-7': '犯罪被害人補償制度：如何申請與獲得法律保障',
-  'criminal-8': '緩起訴與認罪協商：刑事案件的替代處理方式',
-  'criminal-9': '正當防衛與緊急避難：合法自保的法律界限',
-  'criminal-10': '刑事訴訟程序全解析：從警詢到法院審判',
-  'civil-1': '民事訴訟目的與流程：權利保護的法律程序',
-  'civil-2': '合議制與獨任制：民事法院審判制度解析',
-  'civil-3': '小額訴訟攻略：快速解決民事糾紛的途徑',
-  // 可以在這裡添加更多文章標題
-};
-
-// 文章內容資料庫 (作為備用，當無法從文件讀取時使用)
-const articleContent: ArticleContentMap = {
-  'criminal-1': `# 公然侮辱與誹謗的法律界線：如何保護自己的名譽權？
-
-## 前言
-
-在現代社會中，隨著網路與社群媒體的普及，言論自由的範圍不斷擴大，但同時也帶來了許多關於名譽權受侵害的糾紛。本文將探討公然侮辱與誹謗的法律界限，並提供保護個人名譽權的實用建議。
-
-## 一、公然侮辱與誹謗的法律定義
-
-### 公然侮辱
-根據《刑法》第309條，公然侮辱是指以公然方式，以言詞、文字、圖畫或其他方法，損害他人名譽的行為。「公然」指的是不特定多數人得以共見共聞的狀態。
-
-### 誹謗
-《刑法》第310條規定，誹謗是指以散布於眾或以文字、圖畫刊布的方式，指摘或傳述足以損害他人名譽的具體事件。
-
-## 二、公然侮辱與誹謗的構成要件
-
-### 公然侮辱的構成要件
-1. **公然性**：行為必須在公開場合或能被不特定多數人知悉的情況下進行
-2. **侮辱行為**：具有貶低他人人格、尊嚴的言行
-3. **對象特定**：針對特定的自然人或法人
-4. **主觀故意**：行為人主觀上有侮辱他人的故意
-
-### 誹謗的構成要件
-1. **散布於眾**：將訊息傳播給不特定多數人知悉
-2. **具體事件**：指摘或傳述具體事實，而非單純的評價或意見
-3. **足以損害名譽**：所述內容足以降低他人在社會上的評價
-4. **主觀故意**：行為人主觀上有傳述損害他人名譽事實的故意
-
-## 三、言論自由與名譽權的平衡
-
-### 《刑法》第310條第3項的特別規定
-為平衡言論自由與名譽權保護，法律規定：如果行為人能證明其言論內容為真實，且為維護公共利益所必要，則不罰。這被稱為「真實惡意原則」。
-
-### 公共人物與私人的區別
-對於政治人物、名人等公眾人物，由於其行為與公共利益密切相關，一般認為他們應承受較高程度的批評，但這並不代表可以任意侮辱或誹謗。
-
-### 言論的性質與保護強度
-- **事實陳述**：需對其真實性負責
-- **價值判斷**：屬於意見表達，受較高程度的保護
-- **混合型言論**：部分事實、部分評價的言論，需根據具體情況分析
-
-## 四、網路時代的名譽權保護
-
-### 社群媒體發言的法律風險
-在Facebook、Instagram、LINE等社群平台發表的言論，只要符合公然侮辱或誹謗的構成要件，同樣可能構成犯罪。
-
-### 常見的侵權態樣
-1. 在社群媒體公開批評他人的具體缺失
-2. 在評論區留下侮辱性言論
-3. 轉發未經證實的負面訊息
-4. 使用假帳號散布不實言論
-
-## 五、名譽權受侵害時的法律救濟
-
-### 刑事救濟途徑
-1. **提出告訴**：公然侮辱與誹謗屬於告訴乃論罪，被害人需在得知加害人身分後6個月內提出告訴
-2. **刑事調解**：可在偵查或審判階段提出調解請求，尋求和解
-
-### 民事救濟途徑
-1. **請求損害賠償**：依《民法》第18條、第184條及第195條請求賠償
-2. **請求回復名譽**：要求行為人採取適當方式（如登報道歉）回復名譽
-
-### 其他救濟方式
-1. **網路平台檢舉**：要求平台移除侵權內容
-2. **向NCC投訴**：針對媒體的不實報導向國家通訊傳播委員會投訴
-
-## 六、保護自身名譽權的實用建議
-
-### 預防性措施
-1. 保持良好的社交媒體使用習慣
-2. 定期搜尋與自己相關的網路訊息
-3. 謹慎處理個人資料，避免資訊外洩
-
-### 遇到名譽侵害時的處置
-1. 保存證據，包括截圖、網址、發言時間等
-2. 評估侵害程度，選擇適合的救濟途徑
-3. 考慮先私下溝通，尋求和解可能
-4. 必要時尋求專業法律協助
-
-## 結語
-
-在資訊爆炸的時代，每個人都可能成為公然侮辱或誹謗的加害人或被害人。了解相關法律界限，既能保護自己的言論自由，也能守護個人的名譽權。在行使言論自由時，應謹記：言論自由並非無限上綱，它的邊界是他人的合法權益。`,
-  'criminal-2': `# 網路罵人價目表：各類言論的法律風險與可能賠償金額
-
-## 前言
-
-網路時代的來臨，使得言論自由的範圍擴大，但同時也增加了言論可能造成的法律風險。本文將探討網路言論的法律風險，特別是公然侮辱和誹謗的法律界限，並提供可能的賠償金額。
-
-## 一、公然侮辱的法律界限
-
-公然侮辱是指以公然方式，以言詞、文字、圖畫或其他方法，損害他人名譽的行為。根據《刑法》第309條，公然侮辱的構成要件包括：
-
-1. **公然性**：行為必須在公開場合或能被不特定多數人知悉的情況下進行
-2. **侮辱行為**：具有貶低他人人格、尊嚴的言行
-3. **對象特定**：針對特定的自然人或法人
-4. **主觀故意**：行為人主觀上有侮辱他人的故意
-
-## 二、誹謗的法律界限
-
-誹謗是指以散布於眾或以文字、圖畫刊布的方式，指摘或傳述足以損害他人名譽的具體事件。根據《刑法》第310條，誹謗的構成要件包括：
-
-1. **散布於眾**：將訊息傳播給不特定多數人知悉
-2. **具體事件**：指摘或傳述具體事實，而非單純的評價或意見
-3. **足以損害名譽**：所述內容足以降低他人在社會上的評價
-4. **主觀故意**：行為人主觀上有傳述損害他人名譽事實的故意
-
-## 三、網路言論的法律風險
-
-網路言論的法律風險主要體現在公然侮辱和誹謗的可能性。根據前述的法律界限，網路言論如果符合公然侮辱或誹謗的構成要件，同樣可能構成犯罪。
-
-## 四、可能的賠償金額
-
-公然侮辱和誹謗的賠償金額取決於具體的情況，包括侵權行為的嚴重程度、被害人的名譽損害程度等。根據《民法》第184條，賠償金額應當根據被害人的實際損害情況確定。
-
-## 結語
-
-網路言論的法律風險不容忽視，公民應當在行使言論自由的同時，注意言論的法律界限，避免因言論自由而觸犯法律。`,
-  'criminal-3': `# 軍法是什麼？現役軍人的特殊法律責任
-
-## 前言
-
-軍法是指適用於軍人的特殊法律規範，旨在維護軍隊的紀律和秩序。現役軍人除了遵守一般法律外，还需要遵守軍法的規定。本文將介紹軍法的基本概念和現役軍人的特殊法律責任。
-
-## 一、軍法的基本概念
-
-軍法是指適用於軍人的特殊法律規範，包括《軍事審判法》、《軍事刑法》等。軍法的主要目的是維護軍隊的紀律和秩序，保證軍隊的正常運作。
-
-## 二、現役軍人的特殊法律責任
-
-現役軍人除了遵守一般法律外，还需要遵守軍法的規定。現役軍人的特殊法律責任包括：
-
-1. **遵守軍令**：現役軍人必須遵守軍令，完成上級交辦的任務。
-2. **維護軍隊紀律**：現役軍人必須維護軍隊的紀律和秩序，避免任何違法或違紀行為。
-3. **保守軍事秘密**：現役軍人必須保守軍事秘密，避免洩露任何軍事機密。
-
-## 三、違反軍法的法律後果
-
-違反軍法的行為將會受到法律的制裁，包括刑事處罰和行政處分。根據《軍事刑法》第XX條，違反軍法的行為將會受到以下處罰：
-
-1. **刑事處罰**：違反軍法的行為將會受到刑事處罰，包括有期徒刑、拘役等。
-2. **行政處分**：違反軍法的行為將會受到行政處分，包括記過、記大過、降級等。
-
-## 結語
-
-軍法是維護軍隊紀律和秩序的重要手段，現役軍人應當嚴格遵守軍法的規定，避免任何違法或違紀行為。違反軍法的行為將會受到法律的制裁，包括刑事處罰和行政處分。`,
-  'criminal-4': `# 電子煙的法律地位：使用電子煙是否違反菸害防制法？
-
-## 前言
-
-電子煙近年來逐漸普及，但其法律地位仍存在爭議。本文將探討電子煙的法律地位，特別是使用電子煙是否違反菸害防制法。
-
-## 一、電子煙的定義
-
-電子煙是指使用電池供電，通過加熱液體生成蒸汽的電子設備。電子煙通常包含尼古丁、香料和其他化學物質。
-
-## 二、電子煙的法律地位
-
-電子煙的法律地位取決於其是否包含尼古丁。根據《菸害防制法》，尼古丁是受管制的物質。如果電子煙包含尼古丁，則其使用可能違反《菸害防制法》。
-
-## 三、使用電子煙是否違反菸害防制法
-
-使用電子煙是否違反《菸害防制法》，取決於電子煙是否包含尼古丁。如果電子煙不包含尼古丁，則其使用不違反《菸害防制法》。但是，如果電子煙包含尼古丁，則其使用可能違反《菸害防制法》。
-
-## 四、電子煙的法律風險
-
-電子煙的法律風險主要體現在其是否包含尼古丁。如果電子煙包含尼古丁，則其使用可能違反《菸害防制法》，從而導致法律責任。
-
-## 結語
-
-電子煙的法律地位取決於其是否包含尼古丁。使用電子煙是否違反《菸害防制法》，取決於電子煙是否包含尼古丁。電子煙的法律風險主要體現在其是否包含尼古丁。`,
-  'criminal-5': `# 立法委員言論免責權的界限：公職人員發言的法律保障
-
-## 前言
-
-立法委員作為公職人員，在履行職務時享有言論免責權，但這種權利並非無限。 本文將探討立法委員言論免責權的界限，特別是公職人員發言的法律保障。
-
-## 一、言論免責權的概念
-
-言論免責權是指公職人員在履行職務時，對其發言免除法律責任的權利。這種權利旨在保護公職人員的言論自由，促進民主政治的發展。
-
-## 二、立法委員言論免責權的界限
-
-立法委員言論免責權的界限取決於其發言是否與職務相關。如果發言與職務相關，則享有言論免責權；否則，不享有言論免責權。
-
-## 三、公職人員發言的法律保障
-
-公職人員發言的法律保障包括：
-
-1. **言論自由**：公職人員享有言論自由，包括發言、表達意見等。
-2. **免責權**：公職人員在履行職務時，對其發言享有免責權。
-3. **法律保護**：公職人員的發言受到法律保護，包括刑事和民事保護。
-
-## 四、違反言論免責權的法律後果
-
-違反言論免責權的行為將會受到法律的制裁，包括刑事處罰和行政處分。根據《刑法》第XX條，違反言論免責權的行為將會受到以下處罰：
-
-1. **刑事處罰**：違反言論免責權的行為將會受到刑事處罰，包括有期徒刑、拘役等。
-2. **行政處分**：違反言論免責權的行為將會受到行政處分，包括記過、記大過、降級等。
-
-## 結語
-
-立法委員言論免責權的界限取決於其發言是否與職務相關。公職人員發言的法律保障包括言論自由、免責權和法律保護。違反言論免責權的行為將會受到法律的制裁，包括刑事處罰和行政處分。`,
-  'criminal-6': `# 刑事案件自保指南：被警察約談時的權利與義務
-
-## 前言
-
-被警察約談是一種常見的刑事調查手段，但許多人對於自己的權利和義務並不清楚。本文將介紹被警察約談時的權利和義務，提供刑事案件自保的指南。
-
-## 一、被警察約談的權利
-
-被警察約談時，以下是您的權利：
-
-1. **知情權**：您有權知道約談的原因和內容。
-2. **保持沉默權**：您有權保持沉默，不回答任何問題。
-3. **請求律師權**：您有權請求律師陪同約談。
-4. **拒絕回答權**：您有權拒絕回答任何問題。
-
-## 二、被警察約談的義務
-
-被警察約談時，以下是您的義務：
-
-1. **出示身份證件**：您必須出示身份證件。
-2. **配合調查**：您必須配合警察的調查。
-3. **如實回答**：您必須如實回答警察的問題。
-
-## 三、被警察約談的注意事項
-
-被警察約談時，以下是您需要注意的事項：
-
-1. **保持冷靜**：您必須保持冷靜，避免情緒化。
-2. **請求律師**：您應該請求律師陪同約談。
-3. **拒絕回答**：您可以拒絕回答任何問題。
-
-## 結語
-
-被警察約談是一種常見的刑事調查手段，您需要了解自己的權利和義務。保持冷靜，請求律師陪同約談，拒絕回答任何問題，這些都是您需要注意的事項。`,
-  'criminal-7': `# 犯罪被害人補償制度：如何申請與獲得法律保障
-
-## 前言
-
-犯罪被害人補償制度是為了保護犯罪被害人的權益而設立的。本文將介紹犯罪被害人補償制度的申請程序和法律保障。
-
-## 一、犯罪被害人補償制度的概念
-
-犯罪被害人補償制度是指政府為了保護犯罪被害人的權益而提供的補償制度。這種制度旨在為犯罪被害人提供經濟補償和法律保障。
-
-## 二、犯罪被害人補償制度的申請程序
-
-犯罪被害人補償制度的申請程序包括：
-
-1. **提交申請**：犯罪被害人必須提交申請，包括填寫申請表格和提供相關證據。
-2. **審查申請**：政府將審查申請，包括審查申請人的身份和犯罪事實。
-3. **決定補償**：政府將決定是否補償犯罪被害人，包括決定補償金額和補償方式。
-
-## 三、犯罪被害人補償制度的法律保障
-
-犯罪被害人補償制度的法律保障包括：
-
-1. **經濟補償**：政府將提供經濟補償給犯罪被害人，包括補償金額和補償方式。
-2. **法律保護**：政府將提供法律保護給犯罪被害人，包括保護其人身安全和財產權益。
-
-## 四、犯罪被害人補償制度的注意事項
-
-犯罪被害人補償制度的注意事項包括：
-
-1. **申請時間**：犯罪被害人必須在犯罪事實發生後一定時間內提交申請。
-2. **申請材料**：犯罪被害人必須提供完整的申請材料，包括填寫申請表格和提供相關證據。
-3. **審查程序**：政府將審查申請，包括審查申請人的身份和犯罪事實。
-
-## 結語
-
-犯罪被害人補償制度是為了保護犯罪被害人的權益而設立的。犯罪被害人必須了解申請程序和法律保障，才能獲得有效的補償和保護。`,
-  'criminal-8': `# 緩起訴與認罪協商：刑事案件的替代處理方式
-
-## 前言
-
-緩起訴與認罪協商是刑事案件的替代處理方式，可以避免正式起訴和審判。本文將介紹緩起訴與認罪協商的概念和程序。
-
-## 一、緩起訴的概念
-
-緩起訴是指檢察官在調查階段，根據案件的具體情況，決定暫時不起訴被告的處理方式。
-
-## 二、認罪協商的概念
-
-認罪協商是指檢察官與被告之間，根據案件的具體情況，達成認罪協議的處理方式。
-
-## 三、緩起訴與認罪協商的程序
-
-緩起訴與認罪協商的程序包括：
-
-1. **檢察官的決定**：檢察官根據案件的具體情況，決定是否採取緩起訴或認罪協商的處理方式。
-2. **被告的同意**：被告必須同意檢察官的決定，才能進行緩起訴或認罪協商。
-3. **協議的內容**：檢察官與被告必須達成協議，包括認罪的內容和處理方式。
-
-## 四、緩起訴與認罪協商的法律保障
-
-緩起訴與認罪協商的法律保障包括：
-
-1. **法律保護**：檢察官與被告的協議受到法律保護，包括保護其人身安全和財產權益。
-2. **程序保障**：檢察官與被告的協議必須遵守法定的程序，包括通知被告的權利和義務。
-
-## 結語
-
-緩起訴與認罪協商是刑事案件的替代處理方式，可以避免正式起訴和審判。檢察官與被告必須了解協議的內容和程序，才能獲得有效的法律保障。`,
-  'criminal-9': `# 正當防衛與緊急避難：合法自保的法律界限
-
-## 前言
-
-正當防衛與緊急避難是兩種常見的自保手段，但其法律界限並不清楚。本文將介紹正當防衛與緊急避難的概念和法律界限。
-
-## 一、正當防衛的概念
-
-正當防衛是指為了保護自己或他人的生命、身體、自由、財產等權益，而採取的防衛行為。
-
-## 二、緊急避難的概念
-
-緊急避難是指為了避免自己或他人遭受生命、身體、自由、財產等權益的危害，而採取的避難行為。
-
-## 三、正當防衛與緊急避難的法律界限
-
-正當防衛與緊急避難的法律界限取決於其是否符合以下條件：
-
-1. **防衛或避難的必要性**：是否存在防衛或避難的必要性。
-2. **防衛或避難的合理性**：是否採取了合理的防衛或避難措施。
-3. **防衛或避難的比例性**：是否採取了比例性的防衛或避難措施。
-
-## 四、正當防衛與緊急避難的法律後果
-
-正當防衛與緊急避難的法律後果取決於其是否符合前述的條件。如果符合條件，則不會受到法律的制裁；否則，將會受到法律的制裁。
-
-## 結語
-
-正當防衛與緊急避難是兩種常見的自保手段，但其法律界限並不清楚。了解正當防衛與緊急避難的概念和法律界限，才能有效地保護自己的權益。`,
-  'criminal-10': `# 刑事訴訟程序全解析：從警詢到法院審判
-
-## 前言
-
-刑事訴訟程序是指從警詢到法院審判的整個法律程序。本文將介紹刑事訴訟程序的各個階段和相關的法律知識。
-
-## 一、警詢階段
-
-警詢階段是指警察對嫌疑人的初步調查和詢問。在這個階段，警察會對嫌疑人進行詢問，收集證據和情報。
-
-## 二、偵查階段
-
-偵查階段是指檢察官對案件的調查和蒐集證據。在這個階段，檢察官會對嫌疑人進行詢問，收集證據和情報。
-
-## 三、起訴階段
-
-起訴階段是指檢察官對嫌疑人提出起訴。在這個階段，檢察官會向法院提交起訴書，提出對嫌疑人的指控。
-
-## 四、審判階段
-
-審判階段是指法院對案件的審理和判決。在這個階段，法院會聽取證人證詞，審查證據和情報，最終做出判決。
-
-## 五、上訴階段
-
-上訴階段是指被告對法院判決的上訴。在這個階段，被告可以對法院判決提出異議，要求更高法院重新審理案件。
-
-## 結語
-
-刑事訴訟程序是指從警詢到法院審判的整個法律程序。了解刑事訴訟程序的各個階段和相關的法律知識，可以幫助您更好地保護自己的權益。`,
-  'civil-1': `# 民事訴訟目的與流程：權利保護的法律程序
-
-## 前言
-
-民事訴訟是指當事人之間的民事權益糾紛，通過法院的審判程序來解決的法律程序。本文將介紹民事訴訟的目的和流程，幫助您了解如何保護自己的民事權益。
-
-## 一、民事訴訟的目的
-
-民事訴訟的目的在於保護當事人的民事權益，包括財產權、人身權、繼承權等。通過民事訴訟，當事人可以要求法院確認其權益，或者要求對方賠償損失。
-
-## 二、民事訴訟的流程
-
-民事訴訟的流程包括：
-
-1. **起訴**：當事人向法院提出起訴，要求法院審判其民事權益糾紛。
-2. **審判**：法院對案件進行審判，聽取當事人的陳述，審查證據和情報。
-3. **判決**：法院根據審判結果，做出判決，確認當事人的民事權益。
-4. **上訴**：當事人對法院判決不服，可以向上級法院提出上訴。
-
-## 三、民事訴訟的注意事項
-
-民事訴訟的注意事項包括：
-
-1. **起訴時間**：當事人必須在權益受侵害後一定時間內提出起訴。
-2. **起訴材料**：當事人必須提供完整的起訴材料，包括起訴書、證據和相關文件。
-3. **審判程序**：當事人必須遵守法院的審判程序，包括出庭、陳述和答辯。
-
-## 結語
-
-民事訴訟是保護民事權益的重要手段，當事人應當了解民事訴訟的目的和流程，才能有效地保護自己的權益。`,
-  'civil-2': `# 合議制與獨任制：民事法院審判制度解析
-
-## 前言
-
-民事法院審判制度是指法院對民事案件的審判程序和組織結構。本文將介紹民事法院審判制度的基本概念和類型，包括合議制和獨任制。
-
-## 一、民事法院審判制度的基本概念
-
-民事法院審判制度是指法院對民事案件的審判程序和組織結構。民事法院審判制度的基本概念包括：
-
-1. **審判權**：法院有權審判民事案件。
-2. **審判程序**：法院對民事案件的審判程序，包括起訴、審判、判決和上訴。
-3. **組織結構**：法院的組織結構，包括合議制和獨任制。
-
-## 二、合議制
-
-合議制是指法院由多名法官組成的合議庭審判民事案件。合議制的優點包括：
-
-1. **多元化的意見**：合議庭可以提供多元化的意見和觀點。
-2. **更高的公正性**：合議庭可以避免個別法官的偏見和錯誤。
-
-## 三、獨任制
-
-獨任制是指法院由一名法官獨立審判民事案件。獨任制的優點包括：
-
-1. **更高的效率**：獨任制可以提高審判效率和速度。
-2. **更低的成本**：獨任制可以降低審判成本和費用。
-
-## 四、民事法院審判制度的選擇
-
-民事法院審判制度的選擇取決於案件的複雜性和重要性。一般來說，合議制適用於複雜和重要的案件，而獨任制適用於簡單和普通的案件。
-
-## 結語
-
-民事法院審判制度是指法院對民事案件的審判程序和組織結構。合議制和獨任制是民事法院審判制度的兩種基本類型，各有其優點和缺點。`,
-  'civil-3': `# 小額訴訟攻略：快速解決民事糾紛的途徑
-
-## 前言
-
-小額訴訟是指訴訟標的金額在新台幣10萬元以下的民事訴訟程序。本文將介紹小額訴訟的基本概念、適用範圍和程序，幫助您了解如何通過小額訴訟快速解決民事糾紛。
-
-## 一、小額訴訟的基本概念
-
-小額訴訟是指訴訟標的金額在新台幣10萬元以下的民事訴訟程序。小額訴訟的特點包括：
-
-1. **簡便程序**：小額訴訟採用簡便的程序，減少了訴訟的複雜性。
-2. **快速審理**：小額訴訟的審理時間較短，可以快速解決糾紛。
-3. **低成本**：小額訴訟的訴訟費用較低，減輕了當事人的經濟負擔。
-
-## 二、小額訴訟的適用範圍
-
-小額訴訟適用於以下情況：
-
-1. **訴訟標的金額在新台幣10萬元以下**：這是小額訴訟的基本條件。
-2. **給付金錢或其他代替物或有價證券**：小額訴訟主要適用於請求給付金錢或其他代替物或有價證券的案件。
-
-## 三、小額訴訟的程序
-
-小額訴訟的程序包括：
-
-1. **起訴**：當事人向法院提出起訴，要求法院審判其民事權益糾紛。
-2. **審理**：法院對案件進行審理，聽取當事人的陳述，審查證據和情報。
-3. **判決**：法院根據審理結果，做出判決，確認當事人的民事權益。
-
-## 結語
-
-小額訴訟是解決小額民事糾紛的快速途徑，當事人應當了解小額訴訟的基本概念、適用範圍和程序，才能有效地保護自己的權益。`,
-};
-
-// 相關文章列表
-const relatedArticles = [
-  { id: '2', category: 'criminal', title: '公然侮辱罪的法律構成要件', summary: '深入解析公然侮辱罪的構成要件與相關案例分析...' },
-  { id: '3', category: 'criminal', title: '誹謗罪的法律構成要件', summary: '了解誹謗罪的法律要件與抗辯事由...' },
-  { id: '4', category: 'criminal', title: '網路行為的法律責任', summary: '探討在網路上的言論可能帶來的法律風險...' },
-  { id: '1', category: 'civil', title: '名譽權受侵害的民事救濟', summary: '當名譽受損時，可以採取哪些民事救濟途徑...' },
-  { id: '2', category: 'civil', title: '主觀惡意原則的適用', summary: '真實惡意原則在台灣法律實務的適用與發展...' },
-  { id: '3', category: 'civil', title: '言論自由與名譽權的平衡', summary: '如何在保障言論自由的同時保護個人名譽權...' },
-];
-
-// 文章分類
-const categories = [
-  { id: 'criminal', name: '刑事法律' },
-  { id: 'civil', name: '民事法律' },
-  { id: 'administrative', name: '行政法律' },
-  { id: 'procedure', name: '訴訟程序' },
-];
-
+import ArticleLoader from '../components/article/ArticleLoader';
+import ReadingProgress from '../components/article/ReadingProgress';
+import ArticleContent from '../components/article/ArticleContent';
+
+/**
+ * 文章頁面組件
+ * 整合所有文章相關的子組件，負責文章的顯示和互動
+ */
 const ArticlePage: React.FC = () => {
   const { category, id } = useParams<{ category: string; id: string }>();
   const [article, setArticle] = useState<string>('');
@@ -573,104 +75,6 @@ const ArticlePage: React.FC = () => {
     return () => window.removeEventListener('scroll', updateActiveHeading);
   }, [article]); // 當文章內容變化時重新綁定事件
 
-  useEffect(() => {
-    // 從 public/article 目錄讀取 Markdown 文件
-    const loadArticle = async () => {
-      try {
-        // 根據類別和 ID 構建文章索引
-        const articleKey = `${category}-${id}`;
-        
-        // 嘗試從預設標題映射中獲取文章標題
-        const defaultTitle = articleTitles[articleKey] || '未知標題';
-        
-        // 根據文章標題構建文件路徑
-        let fileName = '';
-        
-        if (category === 'criminal' && id === '1') {
-          fileName = '公然侮辱與誹謗的法律界線：如何保護自己的名譽權？.md';
-        } else if (category === 'criminal' && id === '2') {
-          fileName = '網路罵人價目表：各類言論的法律風險與可能賠償金額.md';
-        } else if (category === 'criminal' && id === '3') {
-          fileName = '軍法是什麼？現役軍人的特殊法律責任.md';
-        } else if (category === 'criminal' && id === '4') {
-          fileName = '電子煙的法律地位：使用電子煙是否違反菸害防制法？.md';
-        } else if (category === 'criminal' && id === '5') {
-          fileName = '立法委員言論免責權的界限：公職人員發言的法律保障.md';
-        } else if (category === 'criminal' && id === '6') {
-          fileName = '刑事案件自保指南：被警察約談時的權利與義務.md';
-        } else if (category === 'criminal' && id === '7') {
-          fileName = '犯罪被害人補償制度：如何申請與獲得法律保障.md';
-        } else if (category === 'criminal' && id === '8') {
-          fileName = '緩起訴與認罪協商：刑事案件的替代處理方式.md';
-        } else if (category === 'criminal' && id === '9') {
-          fileName = '正當防衛與緊急避難：合法自保的法律界限.md';
-        } else if (category === 'criminal' && id === '10') {
-          fileName = '刑事訴訟程序全解析：從警詢到法院審判.md';
-        } else if (category === 'civil' && id === '1') {
-          fileName = '民事訴訟目的與流程：權利保護的法律程序.md';
-        } else if (category === 'civil' && id === '2') {
-          fileName = '合議制與獨任制：民事法院審判制度解析.md';
-        } else if (category === 'civil' && id === '3') {
-          fileName = '小額訴訟攻略：快速解決民事糾紛的途徑.md';
-        } else {
-          // 可以在這裡添加更多文章的映射
-          // 如果找不到對應的文件名，嘗試使用預設內容
-          if (articleContent[articleKey]) {
-            const content = articleContent[articleKey];
-            const titleMatch = content.match(/^# (.+)$/m);
-            const articleTitle = titleMatch ? titleMatch[1] : defaultTitle;
-            
-            setArticle(content);
-            setTitle(articleTitle);
-            setLoading(false);
-            return;
-          } else {
-            // 如果找不到對應的文章，使用預設訊息
-            setArticle('# 文章尚未上線\n\n此文章正在編寫中，請稍後再訪問。');
-            setTitle('文章尚未上線');
-            setLoading(false);
-            return;
-          }
-        }
-        
-        // 構建完整的文件路徑
-        const filePath = `/article/${fileName}`;
-        
-        // 使用 axios 獲取 Markdown 文件內容
-        const response = await axios.get(filePath);
-        const content = response.data;
-        
-        // 從內容中提取標題（第一行的 # 後面的內容）
-        const titleMatch = content.match(/^# (.+)$/m);
-        const articleTitle = titleMatch ? titleMatch[1] : defaultTitle;
-        
-        setArticle(content);
-        setTitle(articleTitle);
-        setLoading(false);
-      } catch (error) {
-        console.error('無法載入文章:', error);
-        
-        // 嘗試使用預設內容作為備用
-        const articleKey = `${category}-${id}`;
-        if (articleContent[articleKey]) {
-          const content = articleContent[articleKey];
-          const titleMatch = content.match(/^# (.+)$/m);
-          const articleTitle = titleMatch ? titleMatch[1] : '未知標題';
-          
-          setArticle(content);
-          setTitle(articleTitle);
-        } else {
-          setArticle('# 載入文章時發生錯誤\n\n請稍後再試，或聯繫網站管理員。');
-          setTitle('載入錯誤');
-        }
-        
-        setLoading(false);
-      }
-    };
-
-    loadArticle();
-  }, [category, id]);
-
   // 提取文章目錄
   const extractToc = (content: string) => {
     const headings = content.match(/^#{2,3} (.+)$/gm) || [];
@@ -681,171 +85,77 @@ const ArticlePage: React.FC = () => {
     });
   };
 
+  // 處理文章載入完成的回調
+  const handleArticleLoaded = (articleContent: string, articleTitle: string) => {
+    setArticle(articleContent);
+    setTitle(articleTitle);
+  };
+
+  // 處理載入狀態變化的回調
+  const handleLoadingChange = (isLoading: boolean) => {
+    setLoading(isLoading);
+  };
+
+  // 提取文章目錄
   const toc = extractToc(article);
 
-  // 自定義 React-Markdown 的渲染器，為標題添加 ID
-  const customRenderers = {
-    h2: ({ node, ...props }: any) => {
-      const children = props.children;
-      const text = Array.isArray(children) 
-        ? children.join('') 
-        : String(children || '');
-      const id = `heading-${toc.findIndex(item => item.text === text)}`;
-      return <h2 id={id} {...props} />;
-    },
-    h3: ({ node, ...props }: any) => {
-      const children = props.children;
-      const text = Array.isArray(children) 
-        ? children.join('') 
-        : String(children || '');
-      const id = `heading-${toc.findIndex(item => item.text === text)}`;
-      return <h3 id={id} {...props} />;
-    }
-  };
-
-  // 頁面動畫
-  const pageVariants = {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -20 },
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center bg-gray-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
+  // 相關文章數據
+  const relatedArticles = [
+    { id: '1', category: 'criminal', title: '公然侮辱與誹謗的法律界線', summary: '了解名譽權受侵害時的法律救濟途徑...' },
+    { id: '2', category: 'criminal', title: '網路罵人價目表', summary: '探討網路言論的法律風險與可能賠償...' },
+  ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="article-page">
+      {/* 文章載入器組件 */}
+      <ArticleLoader 
+        category={category || ''} 
+        id={id || ''} 
+        onArticleLoaded={handleArticleLoaded}
+        onLoadingChange={handleLoadingChange}
+      />
+
       {/* 閱讀進度條 */}
-      <div className="fixed top-0 left-0 w-full h-1 z-50">
-        <div 
-          className="h-full bg-primary progress-bar transition-all duration-300 ease-out"
-          style={{ width: `${readingProgress}%` }}
-        />
-      </div>
+      <ReadingProgress progress={readingProgress} />
 
-      {/* 返回頂部按鈕 */}
-      {readingProgress > 20 && (
-        <button 
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-6 right-6 bg-amber-500 text-white p-3 rounded-full shadow-lg hover:bg-amber-600 transition-all z-40 border border-amber-600"
-          aria-label="返回頂部"
+      {loading ? (
+        <div className="loading-container">
+          <div className="loading-spinner"></div>
+          <p>正在載入文章...</p>
+        </div>
+      ) : (
+        <motion.div
+          className="article-container"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-          </svg>
-        </button>
+          <div className="article-header">
+            <h1>{title}</h1>
+          </div>
+
+          <div className="article-body">
+            <div className="article-sidebar">
+              {/* 文章目錄組件 */}
+              <TableOfContents items={toc} activeItemId={activeHeadingId} />
+              
+              {/* 分享文章組件 */}
+              <ShareArticle title={title} url={window.location.href} />
+            </div>
+
+            <div className="article-main">
+              {/* 文章內容組件 */}
+              <ArticleContent article={article} toc={toc} />
+              
+              {/* 相關文章組件 */}
+              <RelatedArticles 
+                articles={relatedArticles}
+                currentArticleId={`${category}-${id}`}
+              />
+            </div>
+          </div>
+        </motion.div>
       )}
-
-      {/* 文章頁頭部 */}
-      <div className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white py-16 px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute inset-0 bg-[url('/images/knowlege_1.png')] bg-cover bg-center opacity-20" />
-        </div>
-        <div className="relative max-w-7xl mx-auto">
-          <div className="flex flex-col items-center text-center">
-            {/* 麵包屑導航 */}
-            <div className="flex items-center text-sm text-gray-300 mb-6 space-x-2">
-              <Link to="/" className="hover:text-primary transition-colors">首頁</Link>
-              <span>/</span>
-              <Link to="/knowledge" className="hover:text-primary transition-colors">法務常識</Link>
-              <span>/</span>
-              <Link to={`/knowledge/${category}`} className="hover:text-primary transition-colors">
-                {categories.find(c => c.id === category)?.name || '未知分類'}
-              </Link>
-              <span>/</span>
-              <span className="text-gray-400 truncate max-w-[200px]">{title}</span>
-            </div>
-            
-            {/* 文章標題 */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              className="text-3xl sm:text-4xl font-bold mb-4 max-w-3xl"
-            >
-              {title}
-            </motion.h1>
-            
-            {/* 文章資訊 */}
-            <div className="flex items-center space-x-4 text-sm text-gray-300">
-              <span>發布日期: 2025-03-01</span>
-              <span>閱讀時間: 約 10 分鐘</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 主要內容區域 */}
-      <div className="flex-grow py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row gap-8">
-            {/* 側邊欄 */}
-            <div className="lg:w-1/4 order-2 lg:order-1">
-              <div className="lg:sticky lg:top-24 space-y-6">
-                {/* 目錄 */}
-                <TableOfContents items={toc} activeItemId={activeHeadingId} />
-                
-                {/* 分享文章 */}
-                <div className="bg-white rounded-xl shadow-sm p-6">
-                  <ShareArticle 
-                    title={title} 
-                    url={window.location.href} 
-                  />
-                </div>
-              </div>
-            </div>
-            
-            {/* 文章主體 */}
-            <div className="lg:w-3/4 order-1 lg:order-2">
-              <motion.div
-                initial="initial"
-                animate="animate"
-                exit="exit"
-                variants={pageVariants}
-                transition={{ duration: 0.4 }}
-                className="bg-white rounded-xl shadow-sm overflow-hidden"
-              >
-                {/* 文章內容 */}
-                <div className="p-6 sm:p-8">
-                  <div className="prose prose-lg max-w-none article-content">
-                    <ReactMarkdown rehypePlugins={[rehypeRaw]} components={customRenderers}>{article}</ReactMarkdown>
-                  </div>
-                  
-                  {/* 文章評分 */}
-                  <div className="mt-12 pt-6 border-t border-gray-200">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">這篇文章對您有幫助嗎？</h3>
-                    <div className="flex items-center space-x-4">
-                      <button className="flex items-center justify-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors">
-                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path>
-                        </svg>
-                        有幫助
-                      </button>
-                      <button className="flex items-center justify-center px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
-                        <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018a2 2 0 01.485.06l3.76.94m-7 10v5a2 2 0 002 2h.096c.5 0 .905-.405.905-.904 0-.715.211-1.413.608-2.008L17 13V4m-7 10h2"></path>
-                        </svg>
-                        沒幫助
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* 相關文章 */}
-                <RelatedArticles 
-                  articles={relatedArticles}
-                  currentArticleId={`${category}-${id}`}
-                />
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
