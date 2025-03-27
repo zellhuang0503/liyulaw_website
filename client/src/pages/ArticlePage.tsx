@@ -137,6 +137,45 @@ const ArticlePage: React.FC = () => {
     return () => window.removeEventListener('scroll', updateReadingProgress);
   }, []);
 
+  // 監聽滾動事件，更新當前活動的標題
+  useEffect(() => {
+    const updateActiveHeading = () => {
+      // 獲取所有標題元素
+      const headings = Array.from(document.querySelectorAll('h2, h3'));
+      
+      if (headings.length === 0) return;
+      
+      // 找到當前視窗中最頂部的標題
+      for (let i = 0; i < headings.length; i++) {
+        const heading = headings[i];
+        const rect = heading.getBoundingClientRect();
+        
+        // 如果標題在視窗頂部或剛剛滾過視窗頂部
+        if (rect.top <= 100) {
+          const id = heading.id;
+          if (id) {
+            setActiveHeadingId(id);
+          }
+        } else {
+          // 如果是第一個標題且還沒滾動到，就設置它為活動標題
+          if (i === 0 && rect.top > 100) {
+            const id = heading.id;
+            if (id) {
+              setActiveHeadingId(id);
+            }
+          }
+          break;
+        }
+      }
+    };
+
+    window.addEventListener('scroll', updateActiveHeading);
+    // 初始化時也執行一次
+    updateActiveHeading();
+    
+    return () => window.removeEventListener('scroll', updateActiveHeading);
+  }, [article]); // 當文章內容變化時重新綁定事件
+
   useEffect(() => {
     // 使用預設的文章內容，不從外部獲取
     const loadArticle = () => {
@@ -184,21 +223,25 @@ const ArticlePage: React.FC = () => {
 
   const toc = extractToc(article);
 
-  // 處理 Markdown 內容，添加標題 ID
-  const processMarkdown = (content: string) => {
-    let processedContent = content;
-    const headings = content.match(/^#{2,3} (.+)$/gm) || [];
-    
-    headings.forEach((heading, index) => {
-      const headingId = `heading-${index}`;
-      const headingWithId = heading + ` {#${headingId}}`;
-      processedContent = processedContent.replace(heading, headingWithId);
-    });
-    
-    return processedContent;
+  // 自定義 React-Markdown 的渲染器，為標題添加 ID
+  const customRenderers = {
+    h2: ({ node, ...props }: any) => {
+      const children = props.children;
+      const text = Array.isArray(children) 
+        ? children.join('') 
+        : String(children || '');
+      const id = `heading-${toc.findIndex(item => item.text === text)}`;
+      return <h2 id={id} {...props} />;
+    },
+    h3: ({ node, ...props }: any) => {
+      const children = props.children;
+      const text = Array.isArray(children) 
+        ? children.join('') 
+        : String(children || '');
+      const id = `heading-${toc.findIndex(item => item.text === text)}`;
+      return <h3 id={id} {...props} />;
+    }
   };
-
-  const processedArticle = processMarkdown(article);
 
   // 頁面動畫
   const pageVariants = {
@@ -310,7 +353,7 @@ const ArticlePage: React.FC = () => {
                 {/* 文章內容 */}
                 <div className="p-6 sm:p-8">
                   <div className="prose prose-lg max-w-none article-content">
-                    <ReactMarkdown>{processedArticle}</ReactMarkdown>
+                    <ReactMarkdown components={customRenderers}>{article}</ReactMarkdown>
                   </div>
                   
                   {/* 文章評分 */}
