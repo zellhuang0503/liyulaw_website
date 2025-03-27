@@ -92,14 +92,14 @@ const ShareArticle: React.FC<ShareArticleProps> = ({ title, url }) => {
           whileHover="hover"
           whileTap="tap"
           onClick={shareToLine}
-          className="p-2 bg-white rounded-full hover:bg-gray-100 transition-colors share-button flex items-center justify-center"
+          className="p-0 bg-[#06C755] text-white rounded-full hover:bg-green-600 transition-colors share-button flex items-center justify-center overflow-hidden"
           style={buttonStyle}
           aria-label="分享到 LINE"
         >
           <img 
-            src="/images/line.svg" 
+            src="/images/line40x40.svg" 
             alt="分享到 LINE" 
-            className="w-6 h-6"
+            className="w-full h-full object-cover"
           />
         </motion.button>
         

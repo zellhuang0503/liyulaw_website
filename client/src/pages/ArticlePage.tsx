@@ -272,7 +272,7 @@ const ArticlePage: React.FC = () => {
       {readingProgress > 20 && (
         <button 
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="fixed bottom-6 right-6 bg-white text-primary p-3 rounded-full shadow-lg hover:bg-gray-100 transition-all z-40 border border-primary"
+          className="fixed bottom-6 right-6 bg-amber-500 text-white p-3 rounded-full shadow-lg hover:bg-amber-600 transition-all z-40 border border-amber-600"
           aria-label="返回頂部"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
