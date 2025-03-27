@@ -88,7 +88,7 @@ const ShareArticle: React.FC<ShareArticleProps> = ({ title, url }) => {
           aria-label="分享到 LINE"
         >
           <img 
-            src="/images/line.png" 
+            src="/images/line.svg" 
             alt="分享到 LINE" 
             className="w-5 h-5"
           />
