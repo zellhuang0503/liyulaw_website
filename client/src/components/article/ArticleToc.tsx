@@ -43,7 +43,7 @@ const ArticleToc: React.FC<ArticleTocProps> = ({ toc, activeHeadingId }) => {
       </div>
       
       {/* 目錄內容 */}
-      <div className="space-y-1 toc-container max-h-[60vh] overflow-y-auto pr-2">
+      <div className="space-y-0.5 toc-container max-h-[60vh] overflow-y-auto pr-2">
         {toc.length > 0 ? (
           toc.map((item) => (
             <a
@@ -54,7 +54,7 @@ const ArticleToc: React.FC<ArticleTocProps> = ({ toc, activeHeadingId }) => {
                 scrollToHeading(item.id);
               }}
               className={`
-                block py-2 border-l-2 pl-3 transition-all duration-200 whitespace-normal
+                block py-1 border-l-2 pl-3 transition-all duration-200 whitespace-normal
                 ${item.level === 2 
                   ? 'font-medium text-base' 
                   : 'ml-3 text-sm'

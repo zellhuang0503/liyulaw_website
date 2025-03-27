@@ -154,21 +154,20 @@
 
 /* 目錄容器樣式 */
 .toc-container {
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-border) transparent;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
 .toc-container::-webkit-scrollbar {
-  width: 6px;
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .toc-container::-webkit-scrollbar-track {
-  background: transparent;
+  display: none;
 }
 
 .toc-container::-webkit-scrollbar-thumb {
-  background-color: var(--color-border);
-  border-radius: 3px;
+  display: none;
 }
 
 .toc-container a {
@@ -183,6 +182,20 @@
   border-radius: var(--border-radius);
   box-shadow: var(--shadow-sm);
   padding: 1.5rem;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.share-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.share-container::-webkit-scrollbar-track {
+  display: none;
+}
+
+.share-container::-webkit-scrollbar-thumb {
+  display: none;
 }
 
 /* 分享按鈕懸停效果 */

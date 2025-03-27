@@ -82,14 +82,12 @@ const ShareArticle: React.FC<ShareArticleProps> = ({ title, url }) => {
           whileHover="hover"
           whileTap="tap"
           onClick={shareToLine}
-          className="w-12 h-12 bg-[#06C755] text-white rounded-full hover:bg-green-600 transition-colors shadow-md flex items-center justify-center overflow-hidden"
+          className="w-12 h-12 bg-[#06C755] text-white rounded-full hover:bg-green-600 transition-colors shadow-md flex items-center justify-center"
           aria-label="分享到 LINE"
         >
-          <img 
-            src="/images/line40x40.svg" 
-            alt="分享到 LINE" 
-            className="w-8 h-8 object-cover"
-          />
+          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path fillRule="evenodd" d="M12.002 2c-5.522 0-9.998 3.618-9.998 8.075 0 3.996 3.552 7.349 8.348 7.975.325.078.77.238.882.871.1.569.087 1.133-.037 1.575-.138.491-.651.798-.651.798s-.169.143-.204.177c-.625.525-.187 1.025.45 1.025.638 0 3.925-2.3 5.357-3.95 1.452-1.65 2.052-3.325 2.052-5.475C18.002 5.617 17.02 2 12.002 2zm-3.5 8.5c0 .276-.224.5-.5.5s-.5-.224-.5-.5v-3c0-.276.224-.5.5-.5s.5.224.5.5v3zm5 0c0 .276-.224.5-.5.5s-.5-.224-.5-.5v-3c0-.276.224-.5.5-.5s.5.224.5.5v3zm-2.501 0c0 .276-.224.5-.5.5s-.5-.224-.5-.5v-3c0-.276.224-.5.5-.5s.5.224.5.5v3z" clipRule="evenodd" />
+          </svg>
         </motion.button>
         
         {/* 複製連結 */}
