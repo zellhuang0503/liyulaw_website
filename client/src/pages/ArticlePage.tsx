@@ -152,15 +152,15 @@ const ArticlePage: React.FC = () => {
         ></div>
         
         <div className="container mx-auto px-4 relative z-10">
-          {/* 麵包屑導航 */}
-          <div className="breadcrumbs mb-4 text-sm opacity-80">
+          <h1 className="text-4xl font-bold mb-4 text-center">{title}</h1>
+          {/* 麵包屑導航 - 移至標題下方並居中 */}
+          <div className="breadcrumbs mb-4 text-sm opacity-80 flex justify-center">
             <Link to="/" className="hover:underline">首頁</Link>
             <span className="mx-2">/</span>
             <Link to={`/articles/${category}`} className="hover:underline">{getCategoryName(category || '')}</Link>
             <span className="mx-2">/</span>
             <span>{title}</span>
           </div>
-          <h1 className="text-4xl font-bold mb-2 text-center">{title}</h1>
         </div>
       </div>
 
