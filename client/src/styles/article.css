@@ -59,7 +59,7 @@
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 1rem;
-  margin-top: 4rem; /* 增加上邊距，確保不與 Header 重疊 */
+  margin-top: 2rem; /* 將上邊距從 4rem 減少到 2rem，縮短為原來的一半 */
   position: relative;
   z-index: 10;
 }
