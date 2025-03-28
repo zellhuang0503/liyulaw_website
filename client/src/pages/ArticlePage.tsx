@@ -6,7 +6,7 @@ import '../styles/article.css';
 // 引入組件
 import TableOfContents from '../components/article/ArticleToc';
 import RelatedArticles from '../components/article/RelatedArticlesList';
-import ShareArticle from '../components/ShareArticle';
+import SocialShareUnified from '../components/common/SocialShareUnified';
 import ArticleLoader from '../components/article/ArticleLoader';
 import ArticleContent from '../components/article/ArticleContent';
 
@@ -160,8 +160,7 @@ const ArticlePage: React.FC = () => {
             <span className="mx-2">/</span>
             <span>{title}</span>
           </div>
-          <h1 className="text-4xl font-bold mb-2">{title}</h1>
-          <p className="text-lg opacity-80">{getCategoryName(category || '')} - 專業法律知識，助您了解權益與義務</p>
+          <h1 className="text-4xl font-bold mb-2 text-center">{title}</h1>
         </div>
       </div>
 
@@ -187,7 +186,13 @@ const ArticlePage: React.FC = () => {
                 {/* 分享文章組件 */}
                 <div className="share-container mt-6">
                   <h3 className="text-lg font-semibold mb-4">分享文章</h3>
-                  <ShareArticle title={title} url={window.location.href} />
+                  <SocialShareUnified 
+                    title={title} 
+                    url={window.location.href} 
+                    showCopyLink={true}
+                    useAnimation={true}
+                    noCard={true}
+                  />
                 </div>
               </div>
             </div>

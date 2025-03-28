@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 // 引入自定義元件
-import SocialShare from './SocialShare';
+import SocialShareUnified from '../../components/common/SocialShareUnified';
 import TableOfContents, { TocItem } from './TableOfContents';
 import BackToTopButton from './BackToTopButton';
 
@@ -166,7 +166,11 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
               <h1 className="text-3xl md:text-4xl font-bold text-[#34495E] mb-6">{pageTitle}</h1>
               
               {/* 社交分享 */}
-              <SocialShare url={window.location.href} title={pageTitle} />
+              <SocialShareUnified 
+                url={window.location.href} 
+                title={pageTitle} 
+                compact={true} 
+              />
               
               {/* 文章內容 */}
               <div 
