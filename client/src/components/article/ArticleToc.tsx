@@ -27,10 +27,16 @@ const ArticleToc: React.FC<ArticleTocProps> = ({ toc, activeHeadingId }) => {
   const scrollToHeading = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
+      // 計算元素的位置，考慮到頁面頂部的固定元素
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - 100;
+      
+      // 使用 scrollTo 方法滾動到計算出的位置
       window.scrollTo({
-        top: element.offsetTop - 100,
+        top: offsetPosition,
         behavior: 'smooth'
       });
+      
       setActiveId(id);
     }
   };

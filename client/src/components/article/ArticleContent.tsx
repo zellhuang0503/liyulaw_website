@@ -20,7 +20,12 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article, toc }) => {
         ? children.join('') 
         : String(children || '');
       const id = `heading-${toc.findIndex(item => item.text === text)}`;
-      return <h2 id={id} {...props} />;
+      return (
+        <div className="heading-container">
+          <span id={id} className="heading-anchor"></span>
+          <h2 {...props} />
+        </div>
+      );
     },
     h3: ({ node, ...props }: any) => {
       const children = props.children;
@@ -28,7 +33,12 @@ const ArticleContent: React.FC<ArticleContentProps> = ({ article, toc }) => {
         ? children.join('') 
         : String(children || '');
       const id = `heading-${toc.findIndex(item => item.text === text)}`;
-      return <h3 id={id} {...props} />;
+      return (
+        <div className="heading-container">
+          <span id={id} className="heading-anchor"></span>
+          <h3 {...props} />
+        </div>
+      );
     },
   };
 

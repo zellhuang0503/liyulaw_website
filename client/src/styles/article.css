@@ -101,6 +101,22 @@
   color: var(--color-text);
 }
 
+/* 標題容器和錨點 */
+.heading-container {
+  position: relative;
+  display: block;
+}
+
+.heading-anchor {
+  position: absolute;
+  top: -100px; /* 調整錨點位置，使其與文章目錄水平齊平 */
+  left: 0;
+  height: 1px;
+  width: 1px;
+  visibility: visible;
+  pointer-events: none;
+}
+
 .article-content h2 {
   font-size: 1.75rem;
   font-weight: 700;
