@@ -1,5 +1,6 @@
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 
 export default function Home() {
   const bannerRef = useRef(null)
@@ -25,6 +26,7 @@ export default function Home() {
     {
       title: '認識刑事訴訟程序',
       category: '刑事法律百科',
+      categoryIndex: 0, // 對應到 LegalKnowledge 頁面的類別索引
       date: '2025-02-15',
       summary: '了解刑事訴訟的基本流程和您的權利...',
       image: '/images/了解刑事訴訟的基本流程和您的權利.jpg'
@@ -32,6 +34,7 @@ export default function Home() {
     {
       title: '租賃糾紛案例分析',
       category: '民事權益指南',
+      categoryIndex: 1, // 對應到 LegalKnowledge 頁面的類別索引
       date: '2025-02-14',
       summary: '常見租賃糾紛的處理方式和注意事項...',
       image: '/images/常見租賃糾紛的處理方式和注意事項.jpg'
@@ -39,6 +42,7 @@ export default function Home() {
     {
       title: '遺產繼承須知',
       category: '家庭法律須知',
+      categoryIndex: 2, // 對應到 LegalKnowledge 頁面的類別索引
       date: '2025-02-13',
       summary: '遺產繼承的法律規定和注意事項...',
       image: '/images/遺產繼承的法律規定和注意事項.jpg'
@@ -129,9 +133,16 @@ export default function Home() {
                 <p className="text-gray-600 mb-4">{article.summary}</p>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-gray-500">{article.date}</span>
-                  <a href="#" className="text-primary hover:text-[#d35400] transition-colors duration-200">
+                  <Link 
+                    to={{
+                      pathname: '/knowledge',
+                      hash: `#category-${article.categoryIndex}`
+                    }}
+                    state={{ scrollToTop: true }}
+                    className="text-primary hover:text-[#d35400] transition-colors duration-200"
+                  >
                     閱讀更多 →
-                  </a>
+                  </Link>
                 </div>
               </motion.article>
             ))}
