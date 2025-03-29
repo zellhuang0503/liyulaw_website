@@ -9,6 +9,7 @@ import RelatedArticles from '../components/article/RelatedArticlesList';
 import SocialShareUnified from '../components/common/SocialShareUnified';
 import ArticleLoader from '../components/article/ArticleLoader';
 import ArticleContent from '../components/article/ArticleContent';
+import { ArticleCategory, resolveCategoryName, mapCategoryToIndex } from '../utils/articleFileResolver';
 
 /**
  * 文章頁面組件
@@ -112,18 +113,7 @@ const ArticlePage: React.FC = () => {
 
   // 獲取類別的中文名稱
   const getCategoryName = (category: string) => {
-    switch (category) {
-      case 'criminal':
-        return '刑事法律';
-      case 'civil':
-        return '民事法律';
-      case 'administrative':
-        return '行政法律';
-      case 'corporate':
-        return '企業法務';
-      default:
-        return '法律知識';
-    }
+    return resolveCategoryName(category as ArticleCategory);
   };
 
   return (
@@ -153,11 +143,11 @@ const ArticlePage: React.FC = () => {
         
         <div className="container mx-auto px-4 relative z-10">
           <h1 className="text-4xl font-bold mb-4 text-center">{title}</h1>
-          {/* 麵包屑導航 - 移至標題下方並居中 */}
+          {/* 麵包屑導航 */}
           <div className="breadcrumbs mb-4 text-sm opacity-80 flex justify-center">
             <Link to="/" className="hover:underline">首頁</Link>
             <span className="mx-2">/</span>
-            <Link to={`/articles/${category}`} className="hover:underline">{getCategoryName(category || '')}</Link>
+            <Link to={`/knowledge#category-${mapCategoryToIndex(category as ArticleCategory)}`} className="hover:underline">{getCategoryName(category || '')}</Link>
             <span className="mx-2">/</span>
             <span>{title}</span>
           </div>
@@ -205,13 +195,13 @@ const ArticlePage: React.FC = () => {
               {/* 返回上一層按鈕 */}
               <div className="back-to-category mt-8 mb-8">
                 <Link 
-                  to={`/articles/${category}`} 
+                  to={`/knowledge#category-${mapCategoryToIndex(category as ArticleCategory)}`} 
                   className="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
                   </svg>
-                  返回{getCategoryName(category || '')}文章列表
+                  返回{resolveCategoryName(category as ArticleCategory)}文章列表
                 </Link>
               </div>
               

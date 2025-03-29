@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 
 // 定義分類和標題的類型
 interface LegalCategory {
@@ -13,8 +14,28 @@ interface LegalCategory {
   }[];
 }
 
+const getCategoryId = (index: number) => `category-${index}`;
+
 const LegalKnowledge: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState<number>(0);
+  const location = useLocation();
+
+  // 根據 URL 中的錨點設置當前活動的類別
+  useEffect(() => {
+    // 從 URL 中獲取錨點
+    const hash = location.hash;
+    if (hash) {
+      // 從錨點中提取類別索引
+      const match = hash.match(/category-(\d+)/);
+      if (match && match[1]) {
+        const categoryIndex = parseInt(match[1], 10);
+        // 確保索引在有效範圍內
+        if (categoryIndex >= 0 && categoryIndex < categories.length) {
+          setActiveCategory(categoryIndex);
+        }
+      }
+    }
+  }, [location.hash]);
 
   // 法務常識的四大分類及其標題
   const categories: LegalCategory[] = [
@@ -139,6 +160,7 @@ const LegalKnowledge: React.FC = () => {
               {categories.map((category, index) => (
                 <button
                   key={index}
+                  id={getCategoryId(index)}
                   onClick={() => setActiveCategory(index)}
                   className={`px-6 py-3 rounded-full text-lg font-medium transition-all duration-300 flex items-center ${
                     activeCategory === index
