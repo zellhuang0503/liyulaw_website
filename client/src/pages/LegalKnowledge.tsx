@@ -37,6 +37,17 @@ const LegalKnowledge: React.FC = () => {
     }
   }, [location.hash]);
 
+  // 處理從 ArticlePage 傳來的滾動指令
+  useEffect(() => {
+    // 檢查 location.state 中是否包含 scrollToTop 指令
+    if (location.state && (location.state as any).scrollToTop) {
+      // 滾動到頁面頂部
+      window.scrollTo(0, 0);
+      // 清除 state 以避免重複滾動
+      history.replaceState({}, document.title);
+    }
+  }, [location]);
+
   // 法務常識的四大分類及其標題
   const categories: LegalCategory[] = [
     {

@@ -201,7 +201,11 @@ const ArticlePage: React.FC = () => {
               {/* 返回上一層按鈕 */}
               <div className="back-to-category mt-8 mb-8">
                 <Link 
-                  to={`/knowledge#category-${mapCategoryToIndex(category as ArticleCategory)}`} 
+                  to={{
+                    pathname: '/knowledge',
+                    hash: `#category-${mapCategoryToIndex(category as ArticleCategory)}`
+                  }}
+                  state={{ scrollToTop: true }}
                   className="inline-flex items-center px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
