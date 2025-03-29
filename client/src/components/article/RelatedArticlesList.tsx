@@ -47,25 +47,26 @@ const RelatedArticlesList: React.FC<RelatedArticlesListProps> = ({
       
       {relatedArticles.length > 0 ? (
         <motion.div 
-          className="related-articles-grid"
+          className="grid grid-cols-1 md:grid-cols-2 gap-4"
           variants={containerVariants}
           initial="initial"
           animate="animate"
         >
           {relatedArticles.map((article, index) => {
-            const articleKey = `${article.category}-${article.id.split('-')[1]}`;
+            // 直接使用類別和ID構建 articleKey
+            const articleKey = `${article.category}-${article.id}`;
             const title = articleTitles[articleKey] || '未知標題';
             
             return (
               <motion.div
                 key={index}
-                className="related-article-card"
+                className="related-article-card bg-white rounded-lg p-4 border border-gray-100 shadow-sm h-full"
                 variants={cardVariants}
                 whileHover="hover"
                 transition={{ duration: 0.3 }}
               >
                 <Link 
-                  to={`/article/${article.category}/${article.id.split('-')[1]}`}
+                  to={`/article/${article.category}/${article.id}`}
                   className="block h-full"
                 >
                   <div className="flex items-start">
@@ -102,8 +103,15 @@ const getCategoryName = (category: string) => {
       return '民事法律';
     case 'administrative':
       return '行政法律';
+    case 'family':
+      return '家事法律';
     case 'corporate':
+    case 'business':
       return '企業法務';
+    case 'commercial':
+      return '商業法律';
+    case 'intellectual':
+      return '智慧財產權';
     default:
       return '法律知識';
   }
