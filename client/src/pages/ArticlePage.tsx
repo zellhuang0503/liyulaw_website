@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import '../styles/article.css';
 
@@ -22,6 +22,12 @@ const ArticlePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [activeHeadingId, setActiveHeadingId] = useState<string>('');
   const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
+  const location = useLocation();
+
+  // 頁面載入或路由參數變化時滾動到頂部
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   // 監聽滾動事件，顯示回到頂部按鈕
   useEffect(() => {

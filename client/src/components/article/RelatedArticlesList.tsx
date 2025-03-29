@@ -66,7 +66,7 @@ const RelatedArticlesList: React.FC<RelatedArticlesListProps> = ({
                 transition={{ duration: 0.3 }}
               >
                 <Link 
-                  to={`/article/${article.category}/${article.id}`}
+                  to={`/knowledge/${article.category}/${article.id}`}
                   className="block h-full"
                 >
                   <div className="flex items-start">
