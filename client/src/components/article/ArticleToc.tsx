@@ -50,7 +50,7 @@ const ArticleToc: React.FC<ArticleTocProps> = ({ toc, activeHeadingId }) => {
       </div>
       
       {/* 目錄內容 */}
-      <div className="space-y-0.5 toc-container max-h-[60vh] overflow-y-auto pr-2">
+      <div className="space-y-1.5 toc-container max-h-[60vh] overflow-y-auto pr-2">
         {toc.length > 0 ? (
           toc.map((item) => (
             <a
