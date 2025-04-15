@@ -76,6 +76,23 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
     }
   };
 
+  // 從文章內容提取目錄項目
+  const extractTocItems = (content: string): TocItem[] => {
+    const items: TocItem[] = [];
+    
+    // 匹配 **標題** 格式
+    const lines = content.split('\n');
+    lines.forEach(line => {
+      if (line.startsWith('**') && line.endsWith('**')) {
+        const text = line.replace(/\*/g, '').trim();
+        const id = text.replace(/\s+/g, '-').toLowerCase();
+        items.push({ id, text, level: 2 }); // 假設都是二級標題
+      }
+    });
+    
+    return items;
+  };
+
   // 獲取文章內容
   const fetchArticle = async () => {
     try {
@@ -96,7 +113,7 @@ const ArticleTemplate: React.FC<ArticleTemplateProps> = ({
       text = cleanMarkdownContent(text);
       
       // 提取標題並設置目錄
-      const headings = extractHeadingsFromMarkdown(text);
+      const headings = extractTocItems(text);
       setTocItems(headings);
       
       // 設置文章內容

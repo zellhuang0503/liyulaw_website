@@ -86,14 +86,25 @@ const ArticlePage: React.FC = () => {
   }, [article]); // 當文章內容變化時重新綁定事件
 
   // 提取文章目錄
-  const extractToc = (content: string) => {
-    const headings = content.match(/^#{2,3} (.+)$/gm) || [];
-    return headings.map((heading, index) => {
-      const level = heading.match(/^(#{2,3})/)?.[0].length || 2;
-      const text = heading.replace(/^#{2,3} /, '');
-      return { id: `heading-${index}`, text, level };
-    });
-  };
+const extractToc = (content: string) => {
+  // 尋找以 ** 開頭和結尾的標題行
+  const lines = content.split('\n');
+  const headings = lines.filter(line => 
+    line.trim().startsWith('**') && 
+    line.trim().endsWith('**') && 
+    line.trim().length > 4
+  );
+
+  return headings.map((heading, index) => {
+    // 移除 ** 符號並清理文字
+    const text = heading.replace(/\*\*/g, '').trim();
+    // 改回使用索引生成 ID
+    const id = `heading-${index}`;
+    // 根據標題格式判斷層級 (這個邏輯可能也需要調整，暫時保留)
+    const level = heading.includes('：') ? 2 : 3; 
+    return { id, text, level };
+  });
+};
 
   // 處理文章載入完成的回調
   const handleArticleLoaded = (articleContent: string, articleTitle: string) => {

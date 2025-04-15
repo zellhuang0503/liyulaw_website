@@ -19,15 +19,16 @@ const TableOfContents: React.FC<TableOfContentsProps> = ({ items, activeItemId }
   // 監聽滾動事件，更新當前活動的目錄項
   useEffect(() => {
     const handleScroll = () => {
-      // 獲取所有標題元素
-      const headingElements = Array.from(document.querySelectorAll('h2, h3, h4'));
+      // 獲取所有標題元素 - 現在匹配包含 ** 的標題
+      const headingElements = Array.from(document.querySelectorAll('h2, h3, h4, p strong'));
       
       // 找出當前視窗中最頂部的標題
       const visibleHeadings = headingElements
+        .filter(heading => heading.textContent?.includes('**'))
         .map((heading) => {
           const rect = heading.getBoundingClientRect();
           return {
-            id: heading.id,
+            id: heading.id || heading.textContent?.replace(/\*/g, '').trim().replace(/\s+/g, '-').toLowerCase() || '',
             top: rect.top,
             visible: rect.top >= 0 && rect.top <= window.innerHeight / 2
           };

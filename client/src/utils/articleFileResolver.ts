@@ -20,7 +20,7 @@ export const resolveArticleFilePath = (category: ArticleCategory, id: string): s
       if (id === '1') {
         return '/article/公然侮辱與誹謗的法律界線：如何保護自己的名譽權？.md';
       } else if (id === '2') {
-        return '/article/網路罵人價目表：各類言論的法律風險與可能賠償金額.md';
+        return '/article/網路罵人價目表：各類言論的法律風險與可能賠償.md';
       } else if (id === '3') {
         return '/article/軍法是什麼？現役軍人的特殊法律責任.md';
       } else if (id === '4') {
@@ -210,7 +210,7 @@ export const getRelatedArticles = (
   const titleToCategoryAndId: { [key: string]: { category: ArticleCategory; id: string } } = {
     // 刑事法律
     "公然侮辱與誹謗的法律界線：如何保護自己的名譽權？": { category: 'criminal', id: '1' },
-    "網路罵人價目表：各類言論的法律風險與可能賠償金額": { category: 'criminal', id: '2' },
+    "網路罵人價目表：各類言論的法律風險與可能賠償": { category: 'criminal', id: '2' },
     "軍法是什麼？現役軍人的特殊法律責任": { category: 'criminal', id: '3' },
     "電子煙的法律地位：使用電子煙是否違反菸害防制法？": { category: 'criminal', id: '4' },
     "立法委員言論免責權的界限：公職人員發言的法律保障": { category: 'criminal', id: '5' },
@@ -261,12 +261,12 @@ export const getRelatedArticles = (
   const relatedArticlesMap: { [key: string]: string[] } = {
     // 刑事法律
     "公然侮辱與誹謗的法律界線：如何保護自己的名譽權？": [
-      "網路罵人價目表：各類言論的法律風險與可能賠償金額",
+      "網路罵人價目表：各類言論的法律風險與可能賠償",
       "立法委員言論免責權的界限：公職人員發言的法律保障",
       "刑事案件自保指南：被警察約談時的權利與義務",
       "調解與和解的策略運用：避免訴訟的有效途徑"
     ],
-    "網路罵人價目表：各類言論的法律風險與可能賠償金額": [
+    "網路罵人價目表：各類言論的法律風險與可能賠償": [
       "公然侮辱與誹謗的法律界線：如何保護自己的名譽權？",
       "立法委員言論免責權的界限：公職人員發言的法律保障",
       "調解與和解的策略運用：避免訴訟的有效途徑",
@@ -286,7 +286,7 @@ export const getRelatedArticles = (
     ],
     "立法委員言論免責權的界限：公職人員發言的法律保障": [
       "公然侮辱與誹謗的法律界線：如何保護自己的名譽權？",
-      "網路罵人價目表：各類言論的法律風險與可能賠償金額",
+      "網路罵人價目表：各類言論的法律風險與可能賠償",
       "刑事訴訟程序全解析：從警詢到法院審判",
       "企業危機公關與法律因應：聲譽管理的雙管齊下"
     ],
@@ -496,7 +496,7 @@ export const getRelatedArticles = (
     ],
     "企業危機公關與法律因應：聲譽管理的雙管齊下": [
       "公然侮辱與誹謗的法律界線：如何保護自己的名譽權？",
-      "網路罵人價目表：各類言論的法律風險與可能賠償金額",
+      "網路罵人價目表：各類言論的法律風險與可能賠償",
       "刑事案件自保指南：被警察約談時的權利與義務",
       "立法委員言論免責權的界限：公職人員發言的法律保障"
     ],

@@ -25,19 +25,20 @@ const ArticleToc: React.FC<ArticleTocProps> = ({ toc, activeHeadingId }) => {
 
   // 點擊目錄項目時滾動到對應的標題
   const scrollToHeading = (id: string) => {
+    console.log(`[ArticleToc] Attempting to scroll to ID: ${id}`); 
     const element = document.getElementById(id);
+    console.log(`[ArticleToc] Found element for ID ${id}:`, element); 
+    
     if (element) {
-      // 計算元素的位置，考慮到頁面頂部的固定元素
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - 100;
-      
-      // 使用 scrollTo 方法滾動到計算出的位置
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
+      // 使用 scrollIntoView 進行滾動，並考慮頂部偏移
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start' // 將元素滾動到視窗頂部
       });
       
       setActiveId(id);
+    } else {
+      
     }
   };
 
