@@ -113,10 +113,8 @@ const Team: React.FC = () => {
           className="bg-white rounded-lg shadow-xl overflow-hidden max-w-4xl mx-auto"
         >
           <div className="md:flex"> {/* Flex container for two columns */}
-            {/* Left Column: Photo Placeholder - REMOVED */}
-
             {/* Right Column: Details */}
-            <div className="w-full p-6 md:p-8 rounded-lg"> 
+            <div className="w-full p-6 md:p-8"> {/* Adjusted to full width */}
               <h3 className="text-3xl font-bold text-gray-800 mb-2">許鳳紋律師</h3>
               <p className="text-xl text-[#D0C86D] font-semibold mb-6">合署律師</p> 
               <div className="text-gray-700 text-base space-y-6">
