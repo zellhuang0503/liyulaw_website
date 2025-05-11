@@ -10,7 +10,14 @@ const Team: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <motion.div
+      className="min-h-screen flex flex-col"
+      variants={pageVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      transition={{ duration: 0.5 }}
+    >
       {/* Banner 區塊 */}
       <div className="relative h-[50vh]">
         <div className="absolute inset-0 bg-black z-0">
@@ -40,69 +47,65 @@ const Team: React.FC = () => {
 
       {/* 律師介紹內容 */}
       <div className="container mx-auto py-16 px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* 律師卡片 1 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="bg-white rounded-lg shadow-lg overflow-hidden"
-          >
-            <div className="h-64 bg-gray-200">
-              {/* 律師照片 */}
-              <div className="w-full h-full bg-[url('/images/lawyer1.jpg')] bg-cover bg-center"></div>
+        {/* Single Lawyer Profile Section - Replaces the grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="bg-white rounded-lg shadow-xl overflow-hidden max-w-4xl mx-auto" // Wider, centered profile with more shadow
+        >
+          <div className="md:flex"> {/* Flex container for two columns */}
+            {/* Left Column: Photo Placeholder */}
+            <div className="md:w-1/3 bg-slate-100 p-8 flex flex-col items-center justify-center"> {/* Changed background, added padding */}
+              <div className="w-full aspect-square max-w-[250px] bg-slate-200 rounded-lg flex items-center justify-center mb-4 md:mb-0">
+                 <p className="text-slate-500 text-center p-4">江倍銓律師<br/>照片預留</p>
+              </div>
             </div>
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">李律師</h3>
-              <p className="text-gray-600 mb-4">主持律師</p>
-              <p className="text-gray-700">
-                專長於民事訴訟、商業糾紛、勞資爭議等領域，擁有豐富的訴訟經驗和專業知識。
-              </p>
-            </div>
-          </motion.div>
 
-          {/* 律師卡片 2 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="bg-white rounded-lg shadow-lg overflow-hidden"
-          >
-            <div className="h-64 bg-gray-200">
-              {/* 律師照片 */}
-              <div className="w-full h-full bg-[url('/images/lawyer2.jpg')] bg-cover bg-center"></div>
+            {/* Right Column: Details */}
+            <div className="md:w-2/3 p-6 md:p-8">
+              <h3 className="text-3xl font-bold text-gray-800 mb-2">江倍銓律師</h3>
+              <p className="text-xl text-[#D0C86D] font-semibold mb-6">主持律師</p> 
+              <div className="text-gray-700 text-base space-y-6">
+                <div>
+                  <h4 className="text-xl font-semibold text-gray-800 mb-2 border-b pb-1 border-gray-300">學歷</h4>
+                  <ul className="list-disc list-inside pl-2 space-y-1 mt-2">
+                    <li>中興大學法商學院法律系司法組</li>
+                    <li>台北大學法律研究所民事法組</li>
+                    <li>臺灣金融研訓院家族信託規劃顧問師證照</li>
+                  </ul>
+                </div>
+                <div>
+                  <h4 className="text-xl font-semibold text-gray-800 mb-2 border-b pb-1 border-gray-300">經歷</h4>
+                  <div className="space-y-4 mt-2">
+                    <div>
+                      <h5 className="font-medium text-gray-700 mb-1 text-lg">曾任</h5>
+                      <ul className="list-disc list-inside pl-2 space-y-1">
+                        <li>歐亞法律事務所 律師</li>
+                        <li>明德法律事務所 合署律師</li>
+                        <li>銓勝法律事務所 主持律師</li>
+                        <li>三重區公所 民眾服務諮詢律師</li>
+                        <li>北投區公所 民眾服務諮詢律師</li>
+                        <li>台北律師公會 福利委員會 委員</li>
+                        <li>民間公民典法治教育基金會 國小法治教育入班律師</li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h5 className="font-medium text-gray-700 mb-1 text-lg">現任</h5>
+                      <ul className="list-disc list-inside pl-2 space-y-1">
+                        <li>理宇法律事務所 主持律師</li>
+                        <li>睿致財富傳承規劃顧問有限公司 家族信託規劃顧問師</li>
+                        <li>多家中小企業顧問律師</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">王律師</h3>
-              <p className="text-gray-600 mb-4">資深律師</p>
-              <p className="text-gray-700">
-                專長於刑事辯護、家事案件、智慧財產權等領域，具有深厚的法學理論基礎和實務經驗。
-              </p>
-            </div>
-          </motion.div>
-
-          {/* 律師卡片 3 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="bg-white rounded-lg shadow-lg overflow-hidden"
-          >
-            <div className="h-64 bg-gray-200">
-              {/* 律師照片 */}
-              <div className="w-full h-full bg-[url('/images/lawyer3.jpg')] bg-cover bg-center"></div>
-            </div>
-            <div className="p-6">
-              <h3 className="text-2xl font-bold text-gray-800 mb-2">張律師</h3>
-              <p className="text-gray-600 mb-4">專業律師</p>
-              <p className="text-gray-700">
-                專長於不動產交易、企業法務、合約審閱等領域，致力於為客戶提供全方位的法律諮詢服務。
-              </p>
-            </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
