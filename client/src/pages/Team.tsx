@@ -57,8 +57,12 @@ const Team: React.FC = () => {
           <div className="md:flex"> {/* Flex container for two columns */}
             {/* Left Column: Photo Placeholder */}
             <div className="md:w-1/3 bg-slate-100 p-8 flex flex-col items-center justify-center"> {/* Changed background, added padding */}
-              <div className="w-full aspect-square max-w-[250px] bg-slate-200 rounded-lg flex items-center justify-center mb-4 md:mb-0">
-                 <p className="text-slate-500 text-center p-4">江倍銓律師<br/>照片預留</p>
+              <div className="w-full aspect-square max-w-[250px] rounded-lg overflow-hidden mb-4 md:mb-0">
+                <img 
+                  src="/images/江倍銓律師.jpg" 
+                  alt="江倍銓律師" 
+                  className="w-full h-full object-cover" 
+                />
               </div>
             </div>
 
