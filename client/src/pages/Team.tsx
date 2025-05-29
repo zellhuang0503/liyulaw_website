@@ -56,14 +56,12 @@ const Team: React.FC = () => {
         >
           <div className="md:flex"> {/* Flex container for two columns */}
             {/* Left Column: Photo Placeholder */}
-            <div className="md:w-1/3 bg-slate-100 p-8 flex flex-col items-center justify-center"> {/* Changed background, added padding */}
-              <div className="w-full aspect-square max-w-[250px] rounded-lg overflow-hidden mb-4 md:mb-0">
-                <img 
-                  src="/images/江倍銓律師.jpg" 
-                  alt="江倍銓律師" 
-                  className="w-full h-full object-cover" 
-                />
-              </div>
+            <div className="md:w-1/3 aspect-square rounded-lg overflow-hidden">
+              <img
+                src="/images/江倍銓律師.jpg"
+                alt="江倍銓律師"
+                className="w-full h-full object-cover object-[center_25%]"
+              />
             </div>
 
             {/* Right Column: Details */}
