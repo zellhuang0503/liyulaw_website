@@ -1,4 +1,4 @@
-﻿# Dependencies
+# Dependencies
 node_modules/
 .pnpm-store/
 
@@ -25,3 +25,6 @@ pnpm-debug.log*
 # System
 .DS_Store
 Thumbs.db
+
+# Cascade/Windsurf specific
+.windsurf/
