@@ -1,7 +1,40 @@
 import { Outlet } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import SEO from '../components/SEO'
+import { siteMeta } from '../config/seo'
 
 const RootLayout = () => {
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": siteMeta.name,
+    "legalName": siteMeta.legalName,
+    "url": siteMeta.url,
+    "logo": `${siteMeta.url}${siteMeta.logo}`,
+    "telephone": siteMeta.phone,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": siteMeta.address.street,
+      "addressLocality": siteMeta.address.locality,
+      "addressRegion": siteMeta.address.region,
+      "postalCode": siteMeta.address.postalCode,
+      "addressCountry": siteMeta.address.country
+    },
+    "sameAs": siteMeta.sameAs
+  }
+
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": siteMeta.url,
+    "name": siteMeta.name,
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": `${siteMeta.url}/search?q={search_term_string}`,
+      "query-input": "required name=search_term_string"
+    }
+  }
+
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
 
@@ -24,6 +57,8 @@ const RootLayout = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+        {/* SEO Meta */}
+        <SEO jsonLd={[organizationJsonLd, websiteJsonLd]} />
       {/* Header */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled ? 'bg-white shadow-md' : 'bg-transparent'
