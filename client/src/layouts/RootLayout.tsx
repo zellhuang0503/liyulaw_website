@@ -58,7 +58,9 @@ const RootLayout = () => {
   return (
     <div className="min-h-screen flex flex-col">
         {/* SEO Meta */}
-        <SEO jsonLd={[organizationJsonLd, websiteJsonLd]} />
+        <SEO jsonLd={[organizationJsonLd, websiteJsonLd]}>
+          <meta name="google-site-verification" content="CyTVf1Y-7k2K4ssR4i3QgGj0s-8KarcQjsiwtbOyHF8" />
+        </SEO>
       {/* Header */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled ? 'bg-white shadow-md' : 'bg-transparent'
