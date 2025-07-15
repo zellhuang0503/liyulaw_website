@@ -16,5 +16,8 @@
     "server:build": "cd server && npm run build",
     "generate:sitemap": "node scripts/generate-sitemap.js",
     "build": "npm run generate:sitemap && npm run client:build && npm run server:build"
+  },
+  "devDependencies": {
+    "@netlify/plugin-sitemap": "^0.8.1"
   }
 }
