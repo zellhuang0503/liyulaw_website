@@ -4,7 +4,7 @@
   command = "npm install react-helmet-async --save && npm install && npm run build"
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "20"
 
 # 前端路由重定向設置
 [[redirects]]
@@ -28,3 +28,11 @@
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
     Content-Security-Policy = "default-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' https://liyulaw-api.herokuapp.com;"
+
+# Netlify 插件：自動產生 sitemap.xml
+[[plugins]]
+  package = "@netlify/plugin-sitemap"
+
+  [plugins.inputs]
+    buildDir = "dist"
+    baseUrl  = "https://liyulaw.com" # 若日後更換網域，改此即可
